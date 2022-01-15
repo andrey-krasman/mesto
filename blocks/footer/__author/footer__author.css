@@ -5,3 +5,11 @@
     line-height: 22px;
     color: #545454;
 }
+
+@media screen and (max-width: 890px) {
+    .footer__author {
+        font-size: 14px;
+        line-height: 17px;
+        margin: 0 0 36px 19px;
+    }
+}

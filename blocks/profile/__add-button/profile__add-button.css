@@ -3,9 +3,16 @@
     height: 50px;
     background-color: black;
     border: 2px solid white;
+    border-radius: 2px;
     padding: 0;
     background-image: url(../../../images/profile/add.svg);
     background-repeat: no-repeat;
     background-position: center;
     align-self: center;
+}
+
+@media screen and (max-width: 890px) {
+    .profile__add-button {
+        width: 282px;
+    }
 }
