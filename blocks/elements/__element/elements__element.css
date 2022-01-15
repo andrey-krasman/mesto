@@ -1,0 +1,8 @@
+.elements__element {
+    width: 282px;
+    height: 362px;
+    background-color: white;
+    border-radius: 10px;
+    display: grid;
+    grid-template-areas: "elements__image ..." "elements__name elements__like";
+}
