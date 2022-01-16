@@ -5,6 +5,7 @@
     max-width: 880px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
 }
 
 @media screen and (max-width: 890px) {

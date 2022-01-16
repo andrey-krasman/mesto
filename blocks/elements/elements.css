@@ -7,7 +7,7 @@
     margin-bottom: 67px;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 890px) {
     .elements {
         grid-template-columns: repeat(1, 282px);
         margin-bottom: 48px;
