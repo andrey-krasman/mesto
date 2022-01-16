@@ -1,6 +1,6 @@
 .elements__element {
-    width: 282px;
-    height: 362px;
+    min-width: 282px;
+    min-height: 362px;
     background-color: white;
     border-radius: 10px;
     display: grid;

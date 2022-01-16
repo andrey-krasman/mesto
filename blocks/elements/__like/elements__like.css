@@ -1,5 +1,5 @@
 .elements__like {
-    width: 22px;
+    min-width: 22px;
     height: 19px;
     background-image: url(../../../images/elements/like.svg);
     justify-self: end;
@@ -8,4 +8,9 @@
     grid-area: elements__like;
     margin-top: 30px;
     margin-right: 20px;
+}
+
+.elements__like:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }

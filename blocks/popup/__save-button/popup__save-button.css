@@ -16,3 +16,8 @@
         margin-top: 45px;
     }
 }
+
+.popup__save-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
