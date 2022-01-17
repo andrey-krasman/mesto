@@ -13,9 +13,6 @@ let formElement = document.querySelector('.popup__form')
 popupNameInput.setAttribute('value', profileName.textContent)
 popupCareerInput.setAttribute('value', profileCareer.textContent)
 
-// popupNameInput.value = profileName.textContent
-// popupCareerInput.value = profileCareer.textContent
-
 function popupOpen() {
     popup.classList.add('popup_opened')
 }
@@ -35,14 +32,3 @@ function formSubmitHandler() {
 popupOpenButton.addEventListener('click', popupOpen)
 popupCloseButton.addEventListener('click', popupClose)
 popupSaveButton.addEventListener('click', formSubmitHandler)
-
-// let formElement = document.querySelector('.popup__form');
-// let nameInput = document.querySelector('.popup__user-name')
-// let jobInput = document.querySelector('.popup__user-job')
-// function formSubmitHandler(evt) {
-//   evt.preventDefault();
-//   document.querySelector('.profile__job').textContent = jobInput.value;
-//   document.querySelector('.profile__name').textContent = nameInput.value;
-//   closePopup()
-// }
-// formElement.addEventListener('submit', formSubmitHandler);
