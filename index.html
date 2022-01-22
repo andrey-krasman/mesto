@@ -11,7 +11,6 @@
 <body class="root">
     <header class="header">
         <img class="header__label" src="./images/header/label.svg" alt="Логотип Место">
-        <img class="header__line" src="./images/header/line.png" alt="Линия разделения">
     </header>
 
     <main class="content">
@@ -19,42 +18,42 @@
             <img class="profile__avatar" src="./images/profile/avatar.png" alt="Ваше фото">
             <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <h2 class="profile__career">Исследователь океана</h2>
+                <p class="profile__career">Исследователь океана</p>
             </div>
-            <button class="profile__edit-button"></button>
-            <button class="profile__add-button"></button>
+            <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
+            <button class="profile__add-button" type="button" aria-label="Добавить фото"></button>
         </section>
 
         <section class="elements">
             <div class="elements__element">
                 <img class="elements__image" src="./images/elements/Amrum,Deutschland.jpg" alt="Следы на снегу в холмах">
-                <p class="elements__name" lang="en">Amrum</p>
-                <button class="elements__like"></button>
+                <h2 class="elements__name" lang="en">Amrum</h2>
+                <button class="elements__like" type="button" aria-label="Мне нравится"></button>
             </div>
             <div class="elements__element">
                 <img class="elements__image" src="./images/elements/Deadvlei,Sossusvlei,Namibia.jpg" alt="Дюна и соляная равнина">
-                <p class="elements__name" lang="en">Deadvlei</p>
-                <button class="elements__like"></button>
+                <h2 class="elements__name" lang="en">Deadvlei</h2>
+                <button class="elements__like" type="button" aria-label="Мне нравится"></button>
             </div>
             <div class="elements__element">
                 <img class="elements__image" src="./images/elements/Hirschenstein,Schwarzach,Deutschland.jpg" alt="Зимний лес">
-                <p class="elements__name" lang="en">Hirschenstein</p>
-                <button class="elements__like"></button>
+                <h2 class="elements__name" lang="en">Hirschenstein</h2>
+                <button class="elements__like" type="button" aria-label="Мне нравится"></button>
             </div>
             <div class="elements__element">
                 <img class="elements__image" src="./images/elements/MountTimpanogos,Utah,USA.jpg" alt="Одиночная гора">
-                <p class="elements__name" lang="en">Mount Timpanogos</p>
-                <button class="elements__like"></button>
+                <h2 class="elements__name" lang="en">Mount Timpanogos</h2>
+                <button class="elements__like" type="button" aria-label="Мне нравится"></button>
             </div>
             <div class="elements__element">
                 <img class="elements__image" src="./images/elements/SnowdoniaNationalPark,BlaenauFfestiniog,UnitedKingdom.jpg" alt="Дорога в ущелье">
-                <p class="elements__name" lang="en">Snowdonia National Park</p>
-                <button class="elements__like"></button>
+                <h2 class="elements__name" lang="en">Snowdonia National Park</h2>
+                <button class="elements__like" type="button" aria-label="Мне нравится"></button>
             </div>
             <div class="elements__element">
                 <img class="elements__image" src="./images/elements/YosemiteValley,UnitedStates.jpg" alt="Каскадный водопад">
-                <p class="elements__name" lang="en">Yosemite Valley</p>
-                <button class="elements__like"></button>
+                <h2 class="elements__name" lang="en">Yosemite Valley</h2>
+                <button class="elements__like" type="button" aria-label="Мне нравится"></button>
             </div>
         </section>
     </main>
@@ -65,15 +64,13 @@
 
     <div class="popup">
         <div class="popup__container">
-            <p class="popup__title">Редактировать профиль</p>
-            <form class="popup__form">
-                <fieldset class="popup__profile-info">
-                    <input class="popup__input-name" type="text" value="" name="name">
-                    <input class="popup__input-career" type="text" value="" name="career">
-                </fieldset>
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <form class="popup__form" name="profile">
+                <input class="popup__input" id="popupInputName" type="text" value="" name="name">
+                <input class="popup__input" id="popupInputCareer" type="text" value="" name="career">
+                <button class="popup__save-button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
-            <button class="popup__save-button" type="submit">Сохранить</button>
-            <button class="popup__close-button"><img src="./images/popup/close.svg" alt="Закрыть"></button>
+            <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
         </div>
     </div>
     <script src="./scripts/index.js"></script>

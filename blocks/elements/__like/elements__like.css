@@ -1,6 +1,7 @@
 .elements__like {
     min-width: 22px;
     height: 19px;
+    background-color: white;
     background-image: url(../../../images/elements/like.svg);
     justify-self: end;
     border: 0;

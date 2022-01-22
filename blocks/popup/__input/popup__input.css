@@ -1,4 +1,4 @@
-.popup__input-career {
+.popup__input {
     display: block;
     width: 358px;
     height: 28px;
@@ -8,19 +8,25 @@
     border-top: none;
     border-color: rgba(0, 0, 0, 0.2);
     align-self: start;
-    margin-left: 36px;
-    margin-bottom: 13px;
-    padding: 0;
+    padding: 0 0 13px 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
 }
 
-.popup__input-career:focus {
+.popup__input:focus {
     outline-color: rgba(102, 102, 218, 0.897);
     outline-width: 3px;
 }
 
 @media screen and (max-width: 890px) {
-    .popup__input-career {
+    .popup__input {
         margin-left: 22px;
         width: 238px;
     }
+}
+
+.popup__input:first-of-type {
+    margin-bottom: 30px;
 }

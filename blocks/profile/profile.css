@@ -1,14 +1,16 @@
 .profile {
-    display: flex;
     position: relative;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
     margin-bottom: 51px;
+    display: grid;
+    grid-template-columns: 150px fit-content(450px) 1fr 150px;
 }
 
 @media screen and (max-width: 890px) {
     .profile {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
         margin-bottom: 36px;
         flex-direction: column;
     }
