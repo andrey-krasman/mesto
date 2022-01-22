@@ -8,10 +8,9 @@
 @media screen and (max-width: 890px) {
     .profile {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 36px;
-        flex-direction: column;
     }
 }
