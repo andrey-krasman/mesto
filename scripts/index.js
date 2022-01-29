@@ -30,3 +30,51 @@ function formSubmitHandler(event) {
 popupOpenButton.addEventListener('click', popupOpen)
 popupCloseButton.addEventListener('click', popupClose)
 formElement.addEventListener('submit', formSubmitHandler)
+
+
+//Проектная работа №5
+
+//ADD FOTO TO THE ELEMENT
+
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+  ]; 
+ 
+initialCards.forEach (function(initialCards) {
+    //find template.content
+    const elementTemplate = document.querySelector('#oneElement').content;
+    //clone element
+    const oneElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
+    //add to content
+    oneElement.querySelector('.elements__image').src = initialCards.link;
+    oneElement.querySelector('.elements__name').textContent = initialCards.name;
+    //get container for content
+    const elementsSection = document.querySelector('.elements');
+    //add content to containers end
+    elementsSection.append(oneElement)
+})
+
+
