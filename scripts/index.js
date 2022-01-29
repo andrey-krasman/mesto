@@ -32,9 +32,7 @@ popupCloseButton.addEventListener('click', popupClose)
 formElement.addEventListener('submit', formSubmitHandler)
 
 
-//Проектная работа №5
-
-//ADD FOTO TO THE ELEMENT
+// ADD FOTO TO THE ELEMENT
 
 const initialCards = [
     {
@@ -78,3 +76,25 @@ initialCards.forEach (function(initialCards) {
 })
 
 
+// CREATE A NEW POPUP: ADD A NEW PLACE
+
+const popups= [
+    {
+      title: 'Редактировать профиль',
+      formName: 'profile',
+      inputUpperId: 'popupInputName',
+      inputLowerId: 'popupInputCareer',
+      inputUpperName: 'name',
+      inputLowerName: 'career',
+      buttonText: 'Сохранить',
+    },
+    {
+        title: 'Новое место',
+        formName: 'addNewPlace',
+        inputUpperId: 'popupInputNamePlace',
+        inputLowerId: 'popupInputLinkPlace',
+        inputUpperName: 'newPlace',
+        inputLowerName: 'newPlaceLink',
+        buttonText: 'Создать',
+    },
+]
