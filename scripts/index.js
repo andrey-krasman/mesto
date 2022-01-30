@@ -4,8 +4,8 @@ const popupAddPlaceOpenButton = document.querySelector('.profile__add-button');
 const popupEditProfile = document.querySelector('.popup__edit-profile');
 const popupAddPlace = document.querySelector('.popup__add-place');
 
-// const popupCloseEditProfileButton = document.querySelector('.popup__edit-profile .popup__close-button');
-// const popupCloseAddPlaceButton = document.querySelector('.popup__add-place .popup__close-button');
+const popupCloseEditProfileButton = document.querySelector('.popup__edit-profile .popup__close-button');
+const popupCloseAddPlaceButton = document.querySelector('.popup__add-place .popup__close-button');
 
 const popup = document.querySelectorAll('.popup');
 
@@ -90,8 +90,8 @@ function formAddPlaceSubmitHandler(event) {
 popupEditOpenButton.addEventListener('click', popupEditOpen);
 popupAddPlaceOpenButton.addEventListener('click', popupAddPlaceOpen);
 
-// popupCloseEditProfileButton.addEventListener('click', popupEditProfileClose);
-// popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose)
+popupCloseEditProfileButton.addEventListener('click', popupEditProfileClose);
+popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose)
 
 formEditElement.addEventListener('submit', formEditProfileSubmitHandler);
 formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler);
@@ -124,11 +124,15 @@ function deleteIt (element) {
 }
 
 
-// THIRD POPUP
+// THIRD POPUP FULL HOUSE
 
-const popupImagePlace = document.querySelector('.popup__image')
+const popupImagePlace = document.querySelector('.popup__image-place')
 
 const popupImageList = document.querySelectorAll('.elements__image')
+
+const popupImage = document.querySelector('.popup__image')
+
+const popupImageTitle = document.querySelector('.popup__title-image')
 
 popupImageList.forEach (function(element) {
   element.addEventListener('click', openPopupPlace)
@@ -137,17 +141,31 @@ popupImageList.forEach (function(element) {
 function openPopupPlace (element) {
   if (element.target.classList.contains('elements__image')) {
     popupImagePlace.classList.add ('popup_opened')
+    popupImage.src = element.target.src
+    popupImage.alt = element.target.alt
+    popupImageTitle.textContent = 'sometext'
   }
 }
 
+const popupCloseImagePlaceButton = document.querySelector('.popup__image-place .popup__close-button');
+
+function popupImagePlaceClose() {
+  popupImagePlace.classList.remove('popup_opened');
+}
+
+popupCloseImagePlaceButton.addEventListener('click', popupImagePlaceClose);
+
+
+
+
 // refactoring buttons popupClose 
 
-const closePopupButton = document.querySelectorAll('.popup__close-button')
+// const closePopupButton = document.querySelectorAll('.popup__close-button')
 
-closePopupButton.forEach (function(element) {
-  element.addEventListener('click', popupClose)
-})
+// closePopupButton.forEach (function(element) {
+//   element.addEventListener('click', popupClose)
+// })
 
-function popupClose (element) {
-  element.target.remove ('popup_opened')
-}
+// function popupClose (element) {
+//   element.target.remove ('popup_opened')
+// }
