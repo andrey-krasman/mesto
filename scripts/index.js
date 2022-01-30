@@ -109,8 +109,10 @@ function likeIt (element) {
 
 
 // Реализовать ЛАЙК для новых карточек
-// 100% вылезет и на дилитах
+// 100% вылезет и на дилитах (ВЫЛЕЗЛО!)
 
+
+// DELETE
 const deletePlace = document.querySelectorAll('.elements__delete')
 
 deletePlace.forEach (function(element) {
@@ -120,3 +122,22 @@ deletePlace.forEach (function(element) {
 function deleteIt (element) {
   element.target.closest('.elements__element').remove()
 }
+
+
+// THIRD POPUP
+
+const popupImagePlace = document.querySelector('.popup__image')
+
+const popupImageList = document.querySelectorAll('.elements__image')
+
+popupImageList.forEach (function(element) {
+  element.addEventListener('click', openPopupPlace)
+})
+
+function openPopupPlace (element) {
+  if (element.target.classList.contains('elements__image')) {
+    popupImagePlace.classList.add ('popup_opened')
+  }
+}
+
+// refactoring buttons popupClose 
