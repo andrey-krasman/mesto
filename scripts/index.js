@@ -69,6 +69,7 @@ initialCards.forEach (function(initialCards) {
 
 function formAddPlaceSubmitHandler(event) {
   event.preventDefault(event);
+  
   let newPlaceForAdd = {
         name: popupPlaceNameInput.value,
         link: popupPlaceLinkInput.value,
@@ -95,22 +96,27 @@ popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose)
 formEditElement.addEventListener('submit', formEditProfileSubmitHandler);
 formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler);
 
-// ADD FOTO TO THE ELEMENT
+// LIKE
+const likePlace = document.querySelectorAll('.elements__like')
+
+likePlace.forEach (function(element) {
+  element.addEventListener('click', likeIt)
+})
+
+function likeIt (element) {
+  element.target.classList.toggle('elements__like_active')
+}
 
 
-// initialCards.forEach (function(initialCards) {
-//     //find template.content
-//     const elementTemplate = document.querySelector('#oneElement').content;
-//     //clone element
-//     const oneElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
-//     //add to content
-//     oneElement.querySelector('.elements__image').src = initialCards.link;
-//     oneElement.querySelector('.elements__name').textContent = initialCards.name;
-//     oneElement.querySelector('.elements__image').alt = initialCards.alt;
-//     //get container for content
-//     const elementsSection = document.querySelector('.elements');
-//     //add content to containers end
-//     elementsSection.append(oneElement);
-// })
+// Реализовать ЛАЙК для новых карточек
+// 100% вылезет и на дилитах
 
+const deletePlace = document.querySelectorAll('.elements__delete')
 
+deletePlace.forEach (function(element) {
+  element.addEventListener('click', deleteIt)
+})
+
+function deleteIt (element) {
+  element.target.closest('.elements__element').remove()
+}
