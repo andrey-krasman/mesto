@@ -13,6 +13,12 @@ const elementsSection = document.querySelector('.elements');
 
 const elementTemplate = document.querySelector('#oneElement').content;
 
+const popupImagePlace = document.querySelector('.popup__image-place')
+const popupImage = document.querySelector('.popup__image')
+const popupImageTitle = document.querySelector('.popup__title-image')
+
+const popupCloseImagePlaceButton = document.querySelector('.popup__image-place .popup__close-button');
+
 let profileName = document.querySelector('.profile__name');
 let profileCareer = document.querySelector('.profile__career');
 
@@ -55,117 +61,79 @@ function formEditProfileSubmitHandler(event) {
 }
 
 
-initialCards.forEach (function(initialCards) {
-  //clone element
+function renderOldElement () {
+  initialCards.forEach(addOldElement)
+}
+
+function addOldElement (initialCards) {
   const oneElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
-  //add to content
+
   oneElement.querySelector('.elements__image').src = initialCards.link;
   oneElement.querySelector('.elements__name').textContent = initialCards.name;
-  oneElement.querySelector('.elements__image').alt = initialCards.alt;
-  //get container for content
-  //add content to containers end
+  oneElement.querySelector('.elements__image').alt = initialCards.name;
+  oneElement.querySelector('.elements__like').addEventListener('click',likeIt)
+  oneElement.querySelector('.elements__delete').addEventListener('click', deleteIt)
+  oneElement.querySelector('.elements__image').addEventListener('click',openPopupPlace)
   elementsSection.append(oneElement);
-})
+}
 
 function formAddPlaceSubmitHandler(event) {
   event.preventDefault(event);
-  
+
   let newPlaceForAdd = {
         name: popupPlaceNameInput.value,
         link: popupPlaceLinkInput.value,
-        alt: 'Новое место',
+        alt: popupPlaceNameInput.value,
       }
-      
+
   const newPlace = elementTemplate.querySelector('.elements__element').cloneNode(true);
 
   newPlace.querySelector('.elements__image').src = newPlaceForAdd.link;
   newPlace.querySelector('.elements__name').textContent = newPlaceForAdd.name;
-  newPlace.querySelector('.elements__image').alt = newPlaceForAdd.alt;
+  newPlace.querySelector('.elements__image').alt = newPlaceForAdd.name;
+  newPlace.querySelector('.elements__like').addEventListener('click',likeIt)
+  newPlace.querySelector('.elements__delete').addEventListener('click', deleteIt)
+  newPlace.querySelector('.elements__image').addEventListener('click',openPopupPlace)
   initialCards.unshift(newPlaceForAdd)
   elementsSection.prepend(newPlace)
-  // initialCards.pop()
   popupAddPlace.classList.remove('popup_opened');
 }
-
-popupEditOpenButton.addEventListener('click', popupEditOpen);
-popupAddPlaceOpenButton.addEventListener('click', popupAddPlaceOpen);
-
-popupCloseEditProfileButton.addEventListener('click', popupEditProfileClose);
-popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose)
-
-formEditElement.addEventListener('submit', formEditProfileSubmitHandler);
-formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler);
-
-// LIKE
-const likePlace = document.querySelectorAll('.elements__like')
-
-likePlace.forEach (function(element) {
-  element.addEventListener('click', likeIt)
-})
 
 function likeIt (element) {
   element.target.classList.toggle('elements__like_active')
 }
 
-
-// Реализовать ЛАЙК для новых карточек
-// 100% вылезет и на дилитах (ВЫЛЕЗЛО!)
-
-
-// DELETE
-const deletePlace = document.querySelectorAll('.elements__delete')
-
-deletePlace.forEach (function(element) {
-  element.addEventListener('click', deleteIt)
-})
-
 function deleteIt (element) {
   element.target.closest('.elements__element').remove()
 }
-
-
-// THIRD POPUP FULL HOUSE
-
-const popupImagePlace = document.querySelector('.popup__image-place')
-
-const popupImageList = document.querySelectorAll('.elements__image')
-
-const popupImage = document.querySelector('.popup__image')
-
-const popupImageTitle = document.querySelector('.popup__title-image')
-
-popupImageList.forEach (function(element) {
-  element.addEventListener('click', openPopupPlace)
-})
 
 function openPopupPlace (element) {
   if (element.target.classList.contains('elements__image')) {
     popupImagePlace.classList.add ('popup_opened')
     popupImage.src = element.target.src
     popupImage.alt = element.target.alt
-    popupImageTitle.textContent = 'sometext'
+    popupImageTitle.textContent = element.target.alt
   }
 }
-
-const popupCloseImagePlaceButton = document.querySelector('.popup__image-place .popup__close-button');
 
 function popupImagePlaceClose() {
   popupImagePlace.classList.remove('popup_opened');
 }
 
+// FUNCTIONS CALL
+
+renderOldElement ()
+
+popupEditOpenButton.addEventListener('click', popupEditOpen);
+
+popupAddPlaceOpenButton.addEventListener('click', popupAddPlaceOpen);
+
+popupCloseEditProfileButton.addEventListener('click', popupEditProfileClose);
+
+popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose)
+
+formEditElement.addEventListener('submit', formEditProfileSubmitHandler);
+
+formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler);
+
 popupCloseImagePlaceButton.addEventListener('click', popupImagePlaceClose);
-
-
-
-
-// refactoring buttons popupClose 
-
-// const closePopupButton = document.querySelectorAll('.popup__close-button')
-
-// closePopupButton.forEach (function(element) {
-//   element.addEventListener('click', popupClose)
-// })
-
-// function popupClose (element) {
-//   element.target.remove ('popup_opened')
-// }
