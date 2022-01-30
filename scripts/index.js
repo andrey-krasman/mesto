@@ -4,10 +4,10 @@ const popupAddPlaceOpenButton = document.querySelector('.profile__add-button');
 const popupEditProfile = document.querySelector('.popup__edit-profile');
 const popupAddPlace = document.querySelector('.popup__add-place');
 
-const popupCloseEditProfileButton = document.querySelector('.popup__edit-profile .popup__close-button');
-const popupCloseAddPlaceButton = document.querySelector('.popup__add-place .popup__close-button');
+// const popupCloseEditProfileButton = document.querySelector('.popup__edit-profile .popup__close-button');
+// const popupCloseAddPlaceButton = document.querySelector('.popup__add-place .popup__close-button');
 
-const popup = document.querySelector('.popup');
+const popup = document.querySelectorAll('.popup');
 
 const elementsSection = document.querySelector('.elements');
 
@@ -90,8 +90,8 @@ function formAddPlaceSubmitHandler(event) {
 popupEditOpenButton.addEventListener('click', popupEditOpen);
 popupAddPlaceOpenButton.addEventListener('click', popupAddPlaceOpen);
 
-popupCloseEditProfileButton.addEventListener('click', popupEditProfileClose);
-popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose)
+// popupCloseEditProfileButton.addEventListener('click', popupEditProfileClose);
+// popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose)
 
 formEditElement.addEventListener('submit', formEditProfileSubmitHandler);
 formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler);
@@ -141,3 +141,13 @@ function openPopupPlace (element) {
 }
 
 // refactoring buttons popupClose 
+
+const closePopupButton = document.querySelectorAll('.popup__close-button')
+
+closePopupButton.forEach (function(element) {
+  element.addEventListener('click', popupClose)
+})
+
+function popupClose (element) {
+  element.target.remove ('popup_opened')
+}
