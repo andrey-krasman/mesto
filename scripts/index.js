@@ -71,9 +71,9 @@ function addOldElement (initialCards) {
   oneElement.querySelector('.elements__image').src = initialCards.link;
   oneElement.querySelector('.elements__name').textContent = initialCards.name;
   oneElement.querySelector('.elements__image').alt = initialCards.name;
-  oneElement.querySelector('.elements__like').addEventListener('click',likeIt)
+  oneElement.querySelector('.elements__like').addEventListener('click', likeIt)
   oneElement.querySelector('.elements__delete').addEventListener('click', deleteIt)
-  oneElement.querySelector('.elements__image').addEventListener('click',openPopupPlace)
+  oneElement.querySelector('.elements__image').addEventListener('click', openPopupPlace)
   elementsSection.append(oneElement);
 }
 
@@ -91,9 +91,9 @@ function formAddPlaceSubmitHandler(event) {
   newPlace.querySelector('.elements__image').src = newPlaceForAdd.link;
   newPlace.querySelector('.elements__name').textContent = newPlaceForAdd.name;
   newPlace.querySelector('.elements__image').alt = newPlaceForAdd.name;
-  newPlace.querySelector('.elements__like').addEventListener('click',likeIt)
+  newPlace.querySelector('.elements__like').addEventListener('click', likeIt)
   newPlace.querySelector('.elements__delete').addEventListener('click', deleteIt)
-  newPlace.querySelector('.elements__image').addEventListener('click',openPopupPlace)
+  newPlace.querySelector('.elements__image').addEventListener('click', openPopupPlace)
   initialCards.unshift(newPlaceForAdd)
   elementsSection.prepend(newPlace)
   popupAddPlace.classList.remove('popup_opened');
