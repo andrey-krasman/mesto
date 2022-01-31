@@ -1,8 +1,12 @@
+// собираем кнопки открытия попапов
 const popupEditOpenButton = document.querySelector('.profile__edit-button');
 const popupAddPlaceOpenButton = document.querySelector('.profile__add-button');
 
+// собираем попапы
 const popupEditProfile = document.querySelector('.popup__edit-profile');
 const popupAddPlace = document.querySelector('.popup__add-place');
+const popupImagePlace = document.querySelector('.popup__image-place')
+
 
 const popupCloseEditProfileButton = document.querySelector('.popup__edit-profile .popup__close-button');
 const popupCloseAddPlaceButton = document.querySelector('.popup__add-place .popup__close-button');
@@ -13,7 +17,6 @@ const elementsSection = document.querySelector('.elements');
 
 const elementTemplate = document.querySelector('#oneElement').content;
 
-const popupImagePlace = document.querySelector('.popup__image-place')
 const popupImage = document.querySelector('.popup__image')
 const popupImageTitle = document.querySelector('.popup__title-image')
 
