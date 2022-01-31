@@ -1,16 +1,16 @@
 //попапы
-const popupProfile = document.querySelector('.popup__edit-profile');
-const popupPlace = document.querySelector('.popup__add-place');
-const popupImagePlace = document.querySelector('.popup__image-place')
+const popupProfile = document.querySelector('#popupEditProfile');
+const popupPlace = document.querySelector('#popupAddPlace');
+const popupImagePlace = document.querySelector('#popupImagePlace')
 
 //кнопки открытия попапов
 const popupEditOpenButton = document.querySelector('.profile__edit-button');
 const popupAddPlaceOpenButton = document.querySelector('.profile__add-button');
 
 //кнопки закрытия попапа
-const popupCloseEditProfileButton = document.querySelector('.popup__edit-profile .popup__close-button');
-const popupCloseAddPlaceButton = document.querySelector('.popup__add-place .popup__close-button');
-const popupCloseImagePlaceButton = document.querySelector('.popup__image-place .popup__close-button');
+const popupCloseEditProfileButton = document.querySelector('#popupEditProfile .popup__close-button');
+const popupCloseAddPlaceButton = document.querySelector('#popupAddPlace .popup__close-button');
+const popupCloseImagePlaceButton = document.querySelector('#popupImagePlace .popup__close-button');
 
 //голова попапа
 const popup = document.querySelectorAll('.popup');
@@ -26,8 +26,8 @@ const popupImage = document.querySelector('.popup__image')
 const popupImageTitle = document.querySelector('.popup__title-image')
 
 //формы
-const formEditElement = document.querySelector('.popup__edit-profile .popup__form');
-const formAddPlace = document.querySelector('.popup__add-place .popup__form');
+const formEditElement = document.querySelector('#popupEditProfile .popup__form');
+const formAddPlace = document.querySelector('#popupAddPlace .popup__form');
 
 //профиль существующий
 let profileName = document.querySelector('.profile__name');
