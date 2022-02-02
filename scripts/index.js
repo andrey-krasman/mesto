@@ -12,15 +12,6 @@ const popupCloseEditProfileButton = document.querySelector('#popupEditProfile .p
 const popupCloseAddPlaceButton = document.querySelector('#popupAddPlace .popup__close-button');
 const popupCloseImagePlaceButton = document.querySelector('#popupImagePlace .popup__close-button');
 
-//голова попапа
-const popup = document.querySelectorAll('.popup');
-
-//карточка
-const elementsSection = document.querySelector('.elements');
-
-//содержимое шаблона
-const elementTemplate = document.querySelector('#oneElement').content;
-
 //для открытия попапа с картинкой
 const popupImage = document.querySelector('.popup__image')
 const popupImageTitle = document.querySelector('.popup__title-image')
@@ -30,14 +21,17 @@ const formEditElement = document.querySelector('#popupEditProfile .popup__form')
 const formAddPlace = document.querySelector('#popupAddPlace .popup__form');
 
 //профиль существующий
-let profileName = document.querySelector('.profile__name');
-let profileCareer = document.querySelector('.profile__career');
+const profileName = document.querySelector('.profile__name');
+const profileCareer = document.querySelector('.profile__career');
 
 //поля ввода
-let popupNameInput = document.querySelector('#popupInputName');
-let popupCareerInput = document.querySelector('#popupInputCareer');
-let popupPlaceNameInput = document.querySelector('#popupInputAddPlaceName');
-let popupPlaceLinkInput = document.querySelector('#popupInputAddPlaceLink');
+const popupNameInput = document.querySelector('#popupInputName');
+const popupCareerInput = document.querySelector('#popupInputCareer');
+const popupPlaceNameInput = document.querySelector('#popupInputAddPlaceName');
+const popupPlaceLinkInput = document.querySelector('#popupInputAddPlaceLink');
+
+const elementsSection = document.querySelector('.elements');// сюда добавляем карточки
+const elementTemplate = document.querySelector('#oneElement').content;// здесь получаем содержимое шаблона
 
 //
 // functions
@@ -61,102 +55,87 @@ function changeProfile () {
   profileCareer.textContent = popupCareerInput.value;
 }
 
-function popupAddPlaceOpen() {
-  popupPlace.classList.add('popup_opened');
-  cleanAddPlaceInput()
+function openPopup (popup) {
+  popup.classList.add('popup_opened')
 }
 
-function popupEditOpen() {
-  popupProfile.classList.add('popup_opened')
-  changeInputProfile ()
+function closePopup (popup) {
+  popup.classList.remove('popup_opened')
 }
 
-function popupEditProfileClose() {
-  popupProfile.classList.remove('popup_opened');
-}
-
-function popupAddPlaceClose() {
-  popupPlace.classList.remove('popup_opened');
-  cleanAddPlaceInput ()
-}
-
-function popupImagePlaceClose() {
-  popupImagePlace.classList.remove('popup_opened');
-}
-
-function formEditProfileSubmitHandler(event) {
+//меняет имя профиля
+function handleFormEditProfileSubmit(event) {
     event.preventDefault(event);
     changeProfile()
-    popupProfile.classList.remove('popup_opened');
+    closePopup(popupProfile)
 }
 
-function renderOldElement () {
-  initialCards.forEach(addOldElement)
-}
-
-function addOldElement (initialCards) {
-  const oneElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
-
-  oneElement.querySelector('.elements__image').src = initialCards.link;
-  oneElement.querySelector('.elements__name').textContent = initialCards.name;
-  oneElement.querySelector('.elements__image').alt = initialCards.name;
-  oneElement.querySelector('.elements__like').addEventListener('click', likeIt)
-  oneElement.querySelector('.elements__delete').addEventListener('click', deleteIt)
-  oneElement.querySelector('.elements__image').addEventListener('click', openPopupPlace)
-  elementsSection.append(oneElement);
-}
-
-function formAddPlaceSubmitHandler(event) {
-  event.preventDefault(event);
-
-  let newPlaceForAdd = {
-        name: popupPlaceNameInput.value,
-        link: popupPlaceLinkInput.value,
-        alt: popupPlaceNameInput.value,
-      }
-
-  const newPlace = elementTemplate.querySelector('.elements__element').cloneNode(true);
-
-  newPlace.querySelector('.elements__image').src = newPlaceForAdd.link;
-  newPlace.querySelector('.elements__name').textContent = newPlaceForAdd.name;
-  newPlace.querySelector('.elements__image').alt = newPlaceForAdd.name;
-  newPlace.querySelector('.elements__like').addEventListener('click', likeIt)
-  newPlace.querySelector('.elements__delete').addEventListener('click', deleteIt)
-  newPlace.querySelector('.elements__image').addEventListener('click', openPopupPlace)
-  initialCards.unshift(newPlaceForAdd)
-  elementsSection.prepend(newPlace)
-  popupPlace.classList.remove('popup_opened');
-}
-
-// likeCard
-function likeIt (element) {
+function likeCard (element) {
   element.target.classList.toggle('elements__like_active')
 }
 
-// deleteCard
-function deleteIt (element) {
+function deleteCard (element) {
   element.target.closest('.elements__element').remove()
 }
 
 function openPopupPlace (element) {
   if (element.target.classList.contains('elements__image')) {
-    popupImagePlace.classList.add ('popup_opened')
+    openPopup(popupImagePlace)
     popupImage.src = element.target.src
     popupImage.alt = element.target.alt
     popupImageTitle.textContent = element.target.alt
   }
 }
 
+function renderInitialCard (array) {
+  array.reverse()
+  array.forEach(addInitialCard)
+}
+
+function addInitialCard (array) {
+  prependElement(array.name, array.link)
+}
+
+function handleFormAddPlaceSubmit(event) {
+  event.preventDefault(event);
+  prependElement(popupPlaceNameInput.value, popupPlaceLinkInput.value)
+  closePopup(popupPlace)
+}
+
+function prependElement (name, link) {
+  const elementforAdd = createCard(name, link)
+  elementsSection.prepend(elementforAdd);
+}
+
+function createCard (name, link) {
+  const cardForAdd = elementTemplate.cloneNode(true);
+  const cardImage = cardForAdd.querySelector('.elements__image')
+  const cardName = cardForAdd.querySelector('.elements__name')
+  const cardLike = cardForAdd.querySelector('.elements__like')
+  const cardDelete = cardForAdd.querySelector('.elements__delete')
+  cardImage.src = link;
+  cardImage.alt = name;
+  cardName.textContent = name;
+  cardLike.addEventListener('click', likeCard)
+  cardDelete.addEventListener('click', deleteCard)
+  cardImage.addEventListener('click', openPopupPlace)
+  return cardForAdd
+}
+
 // FUNCTIONS CALLS
 
-renderOldElement ()
+popupEditOpenButton.addEventListener('click', ()=>{openPopup(popupProfile);
+  changeInputProfile ()
+});
+popupAddPlaceOpenButton.addEventListener('click', ()=>{openPopup(popupPlace);
+  cleanAddPlaceInput()
+});
 
-popupCloseImagePlaceButton.addEventListener('click', popupImagePlaceClose);
-popupCloseEditProfileButton.addEventListener('click', popupEditProfileClose);
-popupCloseAddPlaceButton.addEventListener('click', popupAddPlaceClose);
+formEditElement.addEventListener('submit', handleFormEditProfileSubmit);
+formAddPlace.addEventListener('submit', handleFormAddPlaceSubmit);
 
-popupEditOpenButton.addEventListener('click', popupEditOpen);
-popupAddPlaceOpenButton.addEventListener('click', popupAddPlaceOpen);
+popupCloseEditProfileButton.addEventListener('click', ()=>closePopup(popupProfile))
+popupCloseAddPlaceButton.addEventListener('click', ()=>closePopup(popupPlace))
+popupCloseImagePlaceButton.addEventListener('click', ()=>closePopup(popupImagePlace))
 
-formEditElement.addEventListener('submit', formEditProfileSubmitHandler);
-formAddPlace.addEventListener('submit', formAddPlaceSubmitHandler);
+renderInitialCard (initialCards)
