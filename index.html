@@ -35,9 +35,11 @@
     <div class="popup" id="popupEditProfile">
         <div class="popup__container">
             <h2 class="popup__title">Редактировать профиль</h2>
-            <form class="popup__form" name="profile">
-                <input class="popup__input" id="popupInputName" type="text" value="" name="name">
-                <input class="popup__input" id="popupInputCareer" type="text" value="" name="career">
+            <form class="popup__form" name="profile" novalidate>
+                <input class="popup__input" id="popupInputName" type="text" value="" name="name" required minlength="2" maxlength="40">
+                <span class ="popup__error-message" id="popupErrorName"></span>
+                <input class="popup__input" id="popupInputCareer" type="text" value="" name="career" required minlength="2" maxlength="200">
+                <span class ="popup__error-message" id="popupErrorCareer"></span>
                 <button class="popup__save-button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
@@ -46,9 +48,11 @@
     <div class="popup" id="popupAddPlace">
         <div class="popup__container">
             <h2 class="popup__title">Название</h2>
-            <form class="popup__form" name="addNewPlace">
-                <input class="popup__input" id="popupInputAddPlaceName" type="text" value="" name="addPlaceName" placeholder="Название">
-                <input class="popup__input" id="popupInputAddPlaceLink" type="text" value="" name="addPlaceLink" placeholder="Ссылка на картинку">
+            <form class="popup__form" name="addNewPlace" novalidate>
+                <input class="popup__input" id="popupInputAddPlaceName" type="text" value="" name="addPlaceName" placeholder="Название" required minlength="2" maxlength="30">
+                <span class ="popup__error-message " id="popupErrorPlaceName"></span>
+                <input class="popup__input" id="popupInputAddPlaceLink" type="url" value="" name="addPlaceLink" placeholder="Ссылка на картинку" required>
+                <span class ="popup__error-message" id="popupErrorPlaceLink"></span>
                 <button class="popup__save-button" type="submit" aria-label="Создать">Создать</button>
             </form>
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
@@ -71,6 +75,7 @@
     </template>
     <script src="./scripts/data.js"></script>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
 </body>
 
 </html>

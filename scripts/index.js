@@ -124,15 +124,17 @@ function createCard (name, link) {
 
 // FUNCTIONS CALLS
 
-popupEditOpenButton.addEventListener('click', ()=>{openPopup(popupProfile);
+popupEditOpenButton.addEventListener('click', ()=> {
+  openPopup(popupProfile)
   changeInputProfile ()
 });
-popupAddPlaceOpenButton.addEventListener('click', ()=>{openPopup(popupPlace);
+popupAddPlaceOpenButton.addEventListener('click', ()=> {
+  openPopup(popupPlace)
   cleanAddPlaceInput()
 });
 
-formEditElement.addEventListener('submit', handleFormEditProfileSubmit);
-formAddPlace.addEventListener('submit', handleFormAddPlaceSubmit);
+formEditElement.addEventListener('submit', handleFormEditProfileSubmit)
+formAddPlace.addEventListener('submit', handleFormAddPlaceSubmit)
 
 popupCloseEditProfileButton.addEventListener('click', ()=>closePopup(popupProfile))
 popupCloseAddPlaceButton.addEventListener('click', ()=>closePopup(popupPlace))
