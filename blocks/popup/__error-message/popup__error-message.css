@@ -7,6 +7,7 @@
   opacity: 0;
   margin-top: 5px;
   margin-bottom: 13px;
+  max-width: 358px;
 }
 
 .popup__error-message:first-of-type {

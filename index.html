@@ -37,9 +37,9 @@
             <h2 class="popup__title">Редактировать профиль</h2>
             <form class="popup__form" name="profile" novalidate>
                 <input class="popup__input" id="popupInputName" type="text" value="" name="name" required minlength="2" maxlength="40">
-                <span class ="popup__error-message" id="popupErrorName"></span>
+                <span class ="popup__error-message" id="popupInputNameError"></span>
                 <input class="popup__input" id="popupInputCareer" type="text" value="" name="career" required minlength="2" maxlength="200">
-                <span class ="popup__error-message" id="popupErrorCareer"></span>
+                <span class ="popup__error-message" id="popupInputCareerError"></span>
                 <button class="popup__save-button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
@@ -50,9 +50,9 @@
             <h2 class="popup__title">Название</h2>
             <form class="popup__form" name="addNewPlace" novalidate>
                 <input class="popup__input" id="popupInputAddPlaceName" type="text" value="" name="addPlaceName" placeholder="Название" required minlength="2" maxlength="30">
-                <span class ="popup__error-message " id="popupErrorPlaceName"></span>
+                <span class ="popup__error-message " id="popupInputAddPlaceNameError"></span>
                 <input class="popup__input" id="popupInputAddPlaceLink" type="url" value="" name="addPlaceLink" placeholder="Ссылка на картинку" required>
-                <span class ="popup__error-message" id="popupErrorPlaceLink"></span>
+                <span class ="popup__error-message" id="popupInputAddPlaceLinkError"></span>
                 <button class="popup__save-button" type="submit" aria-label="Создать">Создать</button>
             </form>
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
