@@ -99,7 +99,8 @@ function addInitialCard (array) {
 function handleFormAddPlaceSubmit(event) {
   event.preventDefault(event);
   prependElement(popupPlaceNameInput.value, popupPlaceLinkInput.value)
-  closePopup(popupPlace)
+  // closePopup(popupPlace)
+  formAddPlace.reset()
 }
 
 function prependElement (name, link) {
@@ -141,3 +142,46 @@ popupCloseAddPlaceButton.addEventListener('click', ()=>closePopup(popupPlace))
 popupCloseImagePlaceButton.addEventListener('click', ()=>closePopup(popupImagePlace))
 
 renderInitialCard (initialCards)
+
+// closePopupButtons.forEach((closeButton) => {
+//   closeButton.addEventListener('click', (evt) => {
+          
+//           closePopup(popup)
+//   })
+// })
+
+
+popups = Array.from(document.querySelectorAll('.popup'))
+
+closePopupButtons = Array.from(document.querySelectorAll('.popup__close-button'))
+
+// popups.forEach((popup) => {
+//   popup.addEventListener('mousedown', (evt) => {
+//       if (evt.target.classList.contains('popup_opened')) {
+//           closePopup(popup)
+//       }
+//   })
+// })
+
+
+
+// const keyHandler = (evt) => {
+//   if (evt.key === 27 || evt.key === 13) {
+//     const popupActive = document.querySelector('popup_get_opened');
+//     popupActive.remove();
+   
+//   }
+//   console.log(keyHandler);
+// }
+
+// closePopupAdd.addEventListener('click', function () {
+//   popupToggle(popupAdd);
+//   document.removeEventListener('keyup',  keyHandler);
+// }) // это закрытие попапа
+
+function handleEscape (evt, popup) {
+  if (evt.key === 'Escape') {
+    closePopup (popup)
+  }
+}
+

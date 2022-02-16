@@ -9,7 +9,6 @@ function enableValidation () {
       });
 }
 
-
 function setFormListeners (form) {
     const inputs = Array.from(form.querySelectorAll('.popup__input'))
     const buttonElement = form.querySelector('.popup__save-button')
@@ -24,11 +23,9 @@ function setFormListeners (form) {
 
 function isValid (form, input) {
     if (!input.validity.valid) {
-        // console.log('!')
         showInputError(form, input)
         showErrorMessage(form, input, input.validationMessage)
     } else {
-        // console.log('?')
         hideInputError(form, input)
         hideErrorMessage(form, input)
     }
