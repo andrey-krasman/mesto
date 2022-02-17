@@ -42,14 +42,12 @@ function hideInputError (form, input) {
 function showErrorMessage (form, input, inputErrorMessage) {
     const errorMessage = form.querySelector(`#${input.id}Error`)
     errorMessage.textContent = inputErrorMessage
-    errorMessage.classList.add('popup__error-message_visible')
     console.log(errorMessage.textContent)
 }
 
 function hideErrorMessage (form, input) {
     const errorMessage = form.querySelector(`#${input.id}Error`)
     errorMessage.textContent = ''
-    errorMessage.classList.remove('popup__error-message_visible')
     console.log(errorMessage.textContent)
 }
 
@@ -72,8 +70,8 @@ enableValidation()
 
 // enableValidation({
 //   formSelector: '.form',
-//   inputSelector: '.input__text',
-//   buttonSelector: '.input__btn_add',
-//   disabledButtonClass: 'input__btn_disabled',
-//   inputErrorClass: 'input__text_type_error',
-// });
+//   inputSelector: '.popup__input',
+//   buttonSelector: '.popup__save-button',
+//   disabledButtonClass: 'popup__save-button_disabled',
+//   inputErrorClass: 'popup__input_error',
+// })
