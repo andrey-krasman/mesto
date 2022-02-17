@@ -33,6 +33,11 @@ const popupPlaceLinkInput = document.querySelector('#popupInputAddPlaceLink');
 const elementsSection = document.querySelector('.elements');// сюда добавляем карточки
 const elementTemplate = document.querySelector('#oneElement').content;// здесь получаем содержимое шаблона
 
+
+const popups = Array.from(document.querySelectorAll('.popup'))
+
+const closePopupButtons = Array.from(document.querySelectorAll('.popup__close-button'))
+
 //
 // functions
 //
@@ -57,6 +62,7 @@ function changeProfile () {
 
 function openPopup (popup) {
   popup.classList.add('popup_opened')
+  document.addEventListener('keydown', closePopupEscape)
 }
 
 function closePopup (popup) {
@@ -99,8 +105,8 @@ function addInitialCard (array) {
 function handleFormAddPlaceSubmit(event) {
   event.preventDefault(event);
   prependElement(popupPlaceNameInput.value, popupPlaceLinkInput.value)
-  // closePopup(popupPlace)
-  formAddPlace.reset()
+  // formAddPlace.reset()
+  closePopup(popupPlace)
 }
 
 function prependElement (name, link) {
@@ -143,45 +149,26 @@ popupCloseImagePlaceButton.addEventListener('click', ()=>closePopup(popupImagePl
 
 renderInitialCard (initialCards)
 
-// closePopupButtons.forEach((closeButton) => {
-//   closeButton.addEventListener('click', (evt) => {
-          
-//           closePopup(popup)
-//   })
-// })
 
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+       closePopup(popup)
+      }
+  })
+})
 
-popups = Array.from(document.querySelectorAll('.popup'))
+popups.forEach((popup) => {
+  popup.addEventListener('keydown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+       closePopup(popup)
+      }
+  })
+})
 
-closePopupButtons = Array.from(document.querySelectorAll('.popup__close-button'))
-
-// popups.forEach((popup) => {
-//   popup.addEventListener('mousedown', (evt) => {
-//       if (evt.target.classList.contains('popup_opened')) {
-//           closePopup(popup)
-//       }
-//   })
-// })
-
-
-
-// const keyHandler = (evt) => {
-//   if (evt.key === 27 || evt.key === 13) {
-//     const popupActive = document.querySelector('popup_get_opened');
-//     popupActive.remove();
-   
-//   }
-//   console.log(keyHandler);
-// }
-
-// closePopupAdd.addEventListener('click', function () {
-//   popupToggle(popupAdd);
-//   document.removeEventListener('keyup',  keyHandler);
-// }) // это закрытие попапа
-
-function handleEscape (evt, popup) {
+function closePopupEscape (evt) {
   if (evt.key === 'Escape') {
-    closePopup (popup)
+  popupForCloseEscape = document.querySelector('.popup_opened')
+  closePopup(popupForCloseEscape)
   }
 }
-

@@ -68,3 +68,12 @@ function hideErrorMessage (form, input) {
   }
 
 enableValidation()
+
+
+// enableValidation({
+//   formSelector: '.form',
+//   inputSelector: '.input__text',
+//   buttonSelector: '.input__btn_add',
+//   disabledButtonClass: 'input__btn_disabled',
+//   inputErrorClass: 'input__text_type_error',
+// });
