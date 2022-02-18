@@ -38,6 +38,14 @@ const popups = Array.from(document.querySelectorAll('.popup'))
 
 const closePopupButtons = Array.from(document.querySelectorAll('.popup__close-button'))
 
+// const config = {
+//   formSelector: '.popup__form',
+//   inputSelector: '.popup__input',
+//   buttonSelector: '.popup__save-button',
+//   disabledButtonClass: 'popup__save-button_disabled',
+//   inputErrorClass: 'popup__input_error',
+// }
+
 //
 // functions
 //
@@ -62,6 +70,7 @@ function changeProfile () {
 
 function openPopup (popup) {
   popup.classList.add('popup_opened')
+  // enableValidation(config)
   document.addEventListener('keydown', closePopupEscape)
 }
 
