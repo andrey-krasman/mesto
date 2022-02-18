@@ -1,42 +1,43 @@
 
-function enableValidation () {
-    const forms = Array.from(document.querySelectorAll('.popup__form'))
+function enableValidation ({formSelector, inputSelector, buttonSelector, disabledButtonClass,inputErrorClass}) {
+    const forms = Array.from(document.querySelectorAll(formSelector))
     forms.forEach((form) => {
-        form.addEventListener('submit', (evt) => {
+      form.addEventListener('submit', (evt) => {
           evt.preventDefault()
         });
-        setFormListeners(form)
+        setFormListeners(form, formSelector, inputSelector, buttonSelector, disabledButtonClass, inputErrorClass)
       });
 }
 
-function setFormListeners (form) {
-    const inputs = Array.from(form.querySelectorAll('.popup__input'))
-    const buttonElement = form.querySelector('.popup__save-button')
-    toggleButtonState(inputs, buttonElement)
+function setFormListeners (form, formSelector, inputSelector, buttonSelector, disabledButtonClass, inputErrorClass) {
+    const inputs = Array.from(form.querySelectorAll(inputSelector))
+    const buttonElement = form.querySelector(buttonSelector)
+    toggleButtonState(inputs, buttonElement, disabledButtonClass)
     inputs.forEach(input=> {
-        input.addEventListener('input', () => {
-            isValid(form, input)
-            toggleButtonState(inputs, buttonElement)
+      input.addEventListener('input', () => {
+            isValid(form, input, inputErrorClass)
+            toggleButtonState(inputs, buttonElement, disabledButtonClass)
+            console.log('a')
         })
       })
 }
 
-function isValid (form, input) {
+function isValid (form, input, inputErrorClass) {
     if (!input.validity.valid) {
-        showInputError(form, input)
+        showInputError(input, inputErrorClass)
         showErrorMessage(form, input, input.validationMessage)
     } else {
-        hideInputError(form, input)
+        hideInputError(input, inputErrorClass)
         hideErrorMessage(form, input)
     }
 }
 
-function showInputError (form, input) {
-  input.classList.add('popup__input_error')
+function showInputError (input, inputErrorClass) {
+  input.classList.add(inputErrorClass)
 }
 
-function hideInputError (form, input) {
-  input.classList.remove('popup__input_error')
+function hideInputError (input, inputErrorClass) {
+  input.classList.remove(inputErrorClass)
 }
 
 function showErrorMessage (form, input, inputErrorMessage) {
@@ -57,21 +58,18 @@ function hideErrorMessage (form, input) {
       })
   }
 
-  function toggleButtonState (inputs, buttonElement) {
+  function toggleButtonState (inputs, buttonElement, disabledButtonClass) {
       if (hasInvalidInput(inputs)) {
-          buttonElement.classList.add('popup__save-button_disabled')
+        buttonElement.classList.add(disabledButtonClass)
       } else {
-        buttonElement.classList.remove('popup__save-button_disabled')
+        buttonElement.classList.remove(disabledButtonClass)
       }
   }
 
-enableValidation()
-
-
-// enableValidation({
-//   formSelector: '.form',
-//   inputSelector: '.popup__input',
-//   buttonSelector: '.popup__save-button',
-//   disabledButtonClass: 'popup__save-button_disabled',
-//   inputErrorClass: 'popup__input_error',
-// })
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  buttonSelector: '.popup__save-button',
+  disabledButtonClass: '.popup__save-button_disabled',
+  inputErrorClass: '.popup__input_error',
+})
