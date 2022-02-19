@@ -29,7 +29,6 @@ function setFormListeners (form, {inputSelector, buttonSelector, ...rest}) {
 
   form.addEventListener('click', (event) => {
     if(event.target.classList.contains('.close-button')){
-    console.log('asasdas')
     }
   })
 
