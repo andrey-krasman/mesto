@@ -14,13 +14,14 @@ export class Card {
       
     _deleteCard = () => {
         this._deleteButton.closest('.elements__element').remove()
+        this._cardForAdd = null
       }
     
     _openPopupPlace () {
-        openPopup(popupImagePlace)
         popupImage.src = this._link
         popupImage.alt = this._name
         popupImageTitle.textContent = this._name
+        openPopup(popupImagePlace)
     }
 
     _setEventListeners = () => {

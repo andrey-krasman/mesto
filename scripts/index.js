@@ -36,7 +36,6 @@ const elementTemplate = document.querySelector('#oneElement').content;// зде�
 
 
 const popups = Array.from(document.querySelectorAll('.popup'))
-const forms = Array.from(document.querySelectorAll('.popup__form'))
 const closePopupButtons = Array.from(document.querySelectorAll('.popup__close-button'))
 
 // validation
@@ -78,12 +77,14 @@ function handleFormEditProfileSubmit(event) {
     closePopup(popupProfile)
 }
 
+//работа с карточками
+
 function renderInitialCard (array) {
   array.forEach(addInitialCard)
 }
 
-function addInitialCard (data) {
-  prependElement(data)
+function addInitialCard (data) { 
+  elementsSection.prepend(createCardForAdd(data))
 }
 
 function handleFormAddPlaceSubmit(event) {
@@ -92,22 +93,22 @@ function handleFormAddPlaceSubmit(event) {
     name: popupPlaceNameInput.value,
     link: popupPlaceLinkInput.value,
   }
-  prependElement(newData)
+  elementsSection.prepend(createCardForAdd(newData))
   formAddPlace.reset()
   closePopup(popupPlace)
 }
 
-function prependElement (data) {
+function createCardForAdd (data) {
   const elementforAdd = new Card (data, '#oneElement')
-  elementsSection.prepend(elementforAdd.createCard(data));
+  return elementforAdd.createCard(data)
 }
 
 // FUNCTIONS CALLS
 
 popupEditOpenButton.addEventListener('click', () => {
-  openPopup(popupProfile)
   changeInputProfile ()
   editProfileValidator.revalidateForm()
+  openPopup(popupProfile)
 });
 popupAddPlaceOpenButton.addEventListener('click', () => {
   openPopup(popupPlace)
