@@ -1,3 +1,6 @@
+import {initialCards} from './data.js'
+import {FormValidator} from './FormValidator.js'
+
 //попапы
 const popupProfile = document.querySelector('#popupEditProfile');
 const popupPlace = document.querySelector('#popupAddPlace');
@@ -37,6 +40,22 @@ const elementTemplate = document.querySelector('#oneElement').content;// зде�
 const popups = Array.from(document.querySelectorAll('.popup'))
 const forms = Array.from(document.querySelectorAll('.popup__form'))
 const closePopupButtons = Array.from(document.querySelectorAll('.popup__close-button'))
+
+// validation
+
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  buttonSelector: '.popup__save-button',
+  disabledButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_error',
+}
+
+const editProfileValidator = new FormValidator (config, formEditElement)
+const addCardValidator = new FormValidator (config, formAddPlace)
+
+editProfileValidator.enableValidation()
+addCardValidator.enableValidation()
 
 //
 // functions
