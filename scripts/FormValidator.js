@@ -26,7 +26,7 @@ export class FormValidator {
           }
         })
       
-        this._inputs.forEach(input=> {
+        this._inputs.forEach(input => {
             input.addEventListener('input', () => {
                 this._isValid(input)
                 this._toggleButtonState()
@@ -83,5 +83,9 @@ export class FormValidator {
         })
     }
 
+    revalidateForm () {
+        this._inputs.forEach((input) => {
+            this._isValid(input)
+        })
+    }
 }
-

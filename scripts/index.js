@@ -1,10 +1,12 @@
 import {initialCards} from './data.js'
 import {FormValidator} from './FormValidator.js'
+import {Card} from './Card.js'
+import {openPopup, closePopup} from './utils.js'
+import {popupImagePlace} from './constans.js'
 
 //попапы
 const popupProfile = document.querySelector('#popupEditProfile');
 const popupPlace = document.querySelector('#popupAddPlace');
-const popupImagePlace = document.querySelector('#popupImagePlace')
 
 //кнопки открытия попапов
 const popupEditOpenButton = document.querySelector('.profile__edit-button');
@@ -14,10 +16,6 @@ const popupAddPlaceOpenButton = document.querySelector('.profile__add-button');
 const popupCloseEditProfileButton = document.querySelector('#popupEditProfile .popup__close-button');
 const popupCloseAddPlaceButton = document.querySelector('#popupAddPlace .popup__close-button');
 const popupCloseImagePlaceButton = document.querySelector('#popupImagePlace .popup__close-button');
-
-//для открытия попапа с картинкой
-const popupImage = document.querySelector('.popup__image')
-const popupImageTitle = document.querySelector('.popup__title-image')
 
 //формы
 const formEditElement = document.querySelector('#popupEditProfile .popup__form');
@@ -73,16 +71,6 @@ function changeProfile () {
   profileCareer.textContent = popupCareerInput.value;
 }
 
-function openPopup (popup) {
-  popup.classList.add('popup_opened')
-  document.addEventListener('keydown', closePopupEscape)
-}
-
-function closePopup (popup) {
-  popup.classList.remove('popup_opened')
-  document.removeEventListener('keydown', closePopupEscape)
-}
-
 //меняет имя профиля
 function handleFormEditProfileSubmit(event) {
     event.preventDefault(event);
@@ -90,54 +78,28 @@ function handleFormEditProfileSubmit(event) {
     closePopup(popupProfile)
 }
 
-function likeCard (element) {
-  element.target.classList.toggle('elements__like_active')
-}
-
-function deleteCard (element) {
-  element.target.closest('.elements__element').remove()
-}
-
-function openPopupPlace (element) {
-    openPopup(popupImagePlace)
-    popupImage.src = element.target.src
-    popupImage.alt = element.target.alt
-    popupImageTitle.textContent = element.target.alt
-}
-
 function renderInitialCard (array) {
   array.forEach(addInitialCard)
 }
 
-function addInitialCard (array) {
-  prependElement(array.name, array.link)
+function addInitialCard (data) {
+  prependElement(data)
 }
 
 function handleFormAddPlaceSubmit(event) {
   event.preventDefault(event);
-  prependElement(popupPlaceNameInput.value, popupPlaceLinkInput.value)
+  const newData = {
+    name: popupPlaceNameInput.value,
+    link: popupPlaceLinkInput.value,
+  }
+  prependElement(newData)
   formAddPlace.reset()
   closePopup(popupPlace)
 }
 
-function prependElement (name, link) {
-  const elementforAdd = createCard(name, link)
-  elementsSection.prepend(elementforAdd);
-}
-
-function createCard (name, link) {
-  const cardForAdd = elementTemplate.cloneNode(true);
-  const cardImage = cardForAdd.querySelector('.elements__image')
-  const cardName = cardForAdd.querySelector('.elements__name')
-  const cardLike = cardForAdd.querySelector('.elements__like')
-  const cardDelete = cardForAdd.querySelector('.elements__delete')
-  cardImage.src = link;
-  cardImage.alt = name;
-  cardName.textContent = name;
-  cardLike.addEventListener('click', likeCard)
-  cardDelete.addEventListener('click', deleteCard)
-  cardImage.addEventListener('click', openPopupPlace)
-  return cardForAdd
+function prependElement (data) {
+  const elementforAdd = new Card (data, '#oneElement')
+  elementsSection.prepend(elementforAdd.createCard(data));
 }
 
 // FUNCTIONS CALLS
@@ -145,6 +107,7 @@ function createCard (name, link) {
 popupEditOpenButton.addEventListener('click', () => {
   openPopup(popupProfile)
   changeInputProfile ()
+  editProfileValidator.revalidateForm()
 });
 popupAddPlaceOpenButton.addEventListener('click', () => {
   openPopup(popupPlace)
@@ -157,9 +120,6 @@ popupCloseEditProfileButton.addEventListener('click', () => closePopup(popupProf
 popupCloseAddPlaceButton.addEventListener('click', () => closePopup(popupPlace))
 popupCloseImagePlaceButton.addEventListener('click', () => closePopup(popupImagePlace))
 
-renderInitialCard (initialCards)
-
-
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
     if (evt.target.classList.contains('popup_opened')) {
@@ -168,9 +128,4 @@ popups.forEach((popup) => {
   })
 })
 
-function closePopupEscape (evt) {
-  if (evt.key === 'Escape') {
-  const popupForCloseEscape = document.querySelector('.popup_opened')
-  closePopup(popupForCloseEscape)
-  }
-}
+renderInitialCard (initialCards)
