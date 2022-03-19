@@ -8,9 +8,16 @@
   margin-top: 5px;
   margin-bottom: 13px;
   max-width: 358px;
-  height: 15px;
+  min-height: 30px;
 }
 
 .popup__error-message:first-of-type {
     margin-bottom: 13px;
+}
+
+@media screen and (max-width: 890px) {
+  .popup__error-message {
+      width: 238px;
+      margin-left: 22px;
+  }
 }
