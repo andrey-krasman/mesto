@@ -1,23 +1,13 @@
 import {initialCards} from './data.js'
 import {FormValidator} from './FormValidator.js'
 import {Card} from './Card.js'
-import {openPopup, closePopup} from './utils.js'
-import {popupImagePlace} from './constans.js'
 import {Section} from './Section.js'
-
-
-//попапы
-const popupProfile = document.querySelector('#popupEditProfile');
-const popupPlace = document.querySelector('#popupAddPlace');
+import {PopupWithImage} from './PopupWithImage.js'
+import {PopupWithForm} from './PopupWithForm.js'
 
 //кнопки открытия попапов
 const popupEditOpenButton = document.querySelector('.profile__edit-button');
 const popupAddPlaceOpenButton = document.querySelector('.profile__add-button');
-
-//кнопки закрытия попапа
-const popupCloseEditProfileButton = document.querySelector('#popupEditProfile .popup__close-button');
-const popupCloseAddPlaceButton = document.querySelector('#popupAddPlace .popup__close-button');
-const popupCloseImagePlaceButton = document.querySelector('#popupImagePlace .popup__close-button');
 
 //формы
 const formEditElement = document.querySelector('#popupEditProfile .popup__form');
@@ -34,11 +24,6 @@ const popupPlaceNameInput = document.querySelector('#popupInputAddPlaceName');
 const popupPlaceLinkInput = document.querySelector('#popupInputAddPlaceLink');
 
 const elementsSection = document.querySelector('.elements');// сюда добавляем карточки
-const elementTemplate = document.querySelector('#oneElement').content;// здесь получаем содержимое шаблона
-
-
-const popups = Array.from(document.querySelectorAll('.popup'))
-const closePopupButtons = Array.from(document.querySelectorAll('.popup__close-button'))
 
 // validation
 
@@ -67,69 +52,57 @@ function changeInputProfile () {
 }
 
 // change profile name and career
-function changeProfile () {
-  profileName.textContent = popupNameInput.value;
-  profileCareer.textContent = popupCareerInput.value;
+function changeProfile (data) {
+  profileName.textContent = data['name'];
+  profileCareer.textContent = data['career'];
 }
 
 //меняет имя профиля
-function handleFormEditProfileSubmit(event) {
-    event.preventDefault(event);
-    changeProfile()
-    closePopup(popupProfile)
-}
+const handleFormEditProfileSubmit = (data) => {
+    changeProfile(data)
+    popupEditProfile.close()
+  }
 
-//работа с карточками
-
-// function renderInitialCard (array) {
-//   array.forEach(addInitialCard)
-// }
 
 function addInitialCard (data) { 
   elementsSection.prepend(createCardForAdd(data))
 }
 
-function handleFormAddPlaceSubmit(event) {
-  event.preventDefault(event);
+const handleFormAddPlaceSubmit = (data) => {
   const card = createCardForAdd({
-    name: popupPlaceNameInput.value,
-    link: popupPlaceLinkInput.value,
+    name: data['addPlaceName'],
+    link: data['addPlaceLink'],
   })
   section.addItem(card)
-  formAddPlace.reset()
-  closePopup(popupPlace)
+  popupAddPlace.close()
 }
 
 function createCardForAdd (data) {
-  const elementforAdd = new Card (data, '#oneElement')
+  const elementforAdd = new Card (data, '#oneElement', () => {
+  popupWithImage.open(data.link, data.name)})
   return elementforAdd.createCard(data)
 }
+
+//classes
 
 const section = new Section ({items: initialCards, renderer: addInitialCard}, '.elements')
 section.renderItems()
 
-// FUNCTIONS CALLS
+const popupWithImage = new PopupWithImage ('#popupImagePlace')
+const popupEditProfile = new PopupWithForm ('#popupEditProfile', handleFormEditProfileSubmit)
+const popupAddPlace = new PopupWithForm ('#popupAddPlace', handleFormAddPlaceSubmit)
 
+popupWithImage.setEventListeners()
+popupEditProfile.setEventListeners()
+popupAddPlace.setEventListeners()
+
+
+// FUNCTIONS CALLS
 popupEditOpenButton.addEventListener('click', () => {
   changeInputProfile ()
   editProfileValidator.revalidateForm()
-  openPopup(popupProfile)
+  popupEditProfile.open()
 });
 popupAddPlaceOpenButton.addEventListener('click', () => {
-  openPopup(popupPlace)
+  popupAddPlace.open()
 });
-
-formEditElement.addEventListener('submit', handleFormEditProfileSubmit)
-formAddPlace.addEventListener('submit', handleFormAddPlaceSubmit)
-
-popupCloseEditProfileButton.addEventListener('click', () => closePopup(popupProfile))
-popupCloseAddPlaceButton.addEventListener('click', () => closePopup(popupPlace))
-popupCloseImagePlaceButton.addEventListener('click', () => closePopup(popupImagePlace))
-
-popups.forEach((popup) => {
-  popup.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-       closePopup(popup)
-      }
-  })
-})
