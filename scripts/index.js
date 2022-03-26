@@ -3,6 +3,8 @@ import {FormValidator} from './FormValidator.js'
 import {Card} from './Card.js'
 import {openPopup, closePopup} from './utils.js'
 import {popupImagePlace} from './constans.js'
+import {Section} from './Section.js'
+
 
 //попапы
 const popupProfile = document.querySelector('#popupEditProfile');
@@ -79,9 +81,9 @@ function handleFormEditProfileSubmit(event) {
 
 //работа с карточками
 
-function renderInitialCard (array) {
-  array.forEach(addInitialCard)
-}
+// function renderInitialCard (array) {
+//   array.forEach(addInitialCard)
+// }
 
 function addInitialCard (data) { 
   elementsSection.prepend(createCardForAdd(data))
@@ -89,11 +91,11 @@ function addInitialCard (data) {
 
 function handleFormAddPlaceSubmit(event) {
   event.preventDefault(event);
-  const newData = {
+  const card = createCardForAdd({
     name: popupPlaceNameInput.value,
     link: popupPlaceLinkInput.value,
-  }
-  elementsSection.prepend(createCardForAdd(newData))
+  })
+  section.addItem(card)
   formAddPlace.reset()
   closePopup(popupPlace)
 }
@@ -102,6 +104,9 @@ function createCardForAdd (data) {
   const elementforAdd = new Card (data, '#oneElement')
   return elementforAdd.createCard(data)
 }
+
+const section = new Section ({items: initialCards, renderer: addInitialCard}, '.elements')
+section.renderItems()
 
 // FUNCTIONS CALLS
 
@@ -128,5 +133,3 @@ popups.forEach((popup) => {
       }
   })
 })
-
-renderInitialCard (initialCards)
