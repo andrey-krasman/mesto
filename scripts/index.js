@@ -1,32 +1,14 @@
 import {initialCards} from './data.js'
-import {FormValidator} from './FormValidator.js'
-import {Card} from './Card.js'
-import {Section} from './Section.js'
-import {PopupWithImage} from './PopupWithImage.js'
-import {PopupWithForm} from './PopupWithForm.js'
+import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, elementsSection} from './constans.js'
+import {FormValidator} from '../components/FormValidator.js'
+import {Card} from '../components/Card.js'
+import {Section} from '../components/Section.js'
+import {PopupWithImage} from '../components/PopupWithImage.js'
+import {PopupWithForm} from '../components/PopupWithForm.js'
+import {UserInfo} from '../components/UserInfo.js'
 
-//кнопки открытия попапов
-const popupEditOpenButton = document.querySelector('.profile__edit-button');
-const popupAddPlaceOpenButton = document.querySelector('.profile__add-button');
-
-//формы
-const formEditElement = document.querySelector('#popupEditProfile .popup__form');
-const formAddPlace = document.querySelector('#popupAddPlace .popup__form');
-
-//профиль существующий
-const profileName = document.querySelector('.profile__name');
-const profileCareer = document.querySelector('.profile__career');
-
-//поля ввода
-const popupNameInput = document.querySelector('#popupInputName');
-const popupCareerInput = document.querySelector('#popupInputCareer');
-const popupPlaceNameInput = document.querySelector('#popupInputAddPlaceName');
-const popupPlaceLinkInput = document.querySelector('#popupInputAddPlaceLink');
-
-const elementsSection = document.querySelector('.elements');// сюда добавляем карточки
 
 // validation
-
 const config = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -40,30 +22,21 @@ const addCardValidator = new FormValidator (config, formAddPlace)
 
 editProfileValidator.enableValidation()
 addCardValidator.enableValidation()
-
 //
-// functions
-//
-
 // добавляет в попап существующий профиль
 function changeInputProfile () {
-  popupNameInput.value = profileName.textContent;
-  popupCareerInput.value = profileCareer.textContent;
-}
-
-// change profile name and career
-function changeProfile (data) {
-  profileName.textContent = data['name'];
-  profileCareer.textContent = data['career'];
+  const data = userInfo.getUserInfo()
+  popupNameInput.value = data.name
+  popupCareerInput.value = data.career
 }
 
 //меняет имя профиля
 const handleFormEditProfileSubmit = (data) => {
-    changeProfile(data)
-    popupEditProfile.close()
+  userInfo.setUserInfo(data['name'],data['career'])
+  popupEditProfile.close()
   }
 
-
+// работа с карточками
 function addInitialCard (data) { 
   elementsSection.prepend(createCardForAdd(data))
 }
@@ -83,19 +56,14 @@ function createCardForAdd (data) {
   return elementforAdd.createCard(data)
 }
 
-//classes
-
+//Section / Popups / UserInfo
 const section = new Section ({items: initialCards, renderer: addInitialCard}, '.elements')
-section.renderItems()
 
 const popupWithImage = new PopupWithImage ('#popupImagePlace')
 const popupEditProfile = new PopupWithForm ('#popupEditProfile', handleFormEditProfileSubmit)
 const popupAddPlace = new PopupWithForm ('#popupAddPlace', handleFormAddPlaceSubmit)
 
-popupWithImage.setEventListeners()
-popupEditProfile.setEventListeners()
-popupAddPlace.setEventListeners()
-
+const userInfo = new UserInfo ({userProfileSelector: '.profile__name', careerProfileSelector: '.profile__career'})
 
 // FUNCTIONS CALLS
 popupEditOpenButton.addEventListener('click', () => {
@@ -106,3 +74,9 @@ popupEditOpenButton.addEventListener('click', () => {
 popupAddPlaceOpenButton.addEventListener('click', () => {
   popupAddPlace.open()
 });
+
+popupWithImage.setEventListeners()
+popupEditProfile.setEventListeners()
+popupAddPlace.setEventListeners()
+
+section.renderItems()

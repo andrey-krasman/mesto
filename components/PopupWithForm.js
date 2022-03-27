@@ -1,4 +1,3 @@
-// Содержит приватный метод _getInputValues, который собирает данные всех полей формы.
 import { Popup } from "./Popup.js";
 
 export class PopupWithForm extends Popup {
