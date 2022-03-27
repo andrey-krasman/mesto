@@ -1,5 +1,6 @@
-import {initialCards} from './data.js'
-import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, elementsSection} from './constans.js'
+import './index.css'
+import {initialCards} from '../utils/data.js'
+import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, elementsSection} from '../utils/constans.js'
 import {FormValidator} from '../components/FormValidator.js'
 import {Card} from '../components/Card.js'
 import {Section} from '../components/Section.js'
