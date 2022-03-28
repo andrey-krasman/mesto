@@ -1,6 +1,6 @@
 import './index.css'
 import {initialCards} from '../utils/data.js'
-import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, elementsSection} from '../utils/constans.js'
+import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput} from '../utils/constans.js'
 import {FormValidator} from '../components/FormValidator.js'
 import {Card} from '../components/Card.js'
 import {Section} from '../components/Section.js'
@@ -18,11 +18,11 @@ const config = {
   inputErrorClass: 'popup__input_error',
 }
 
-const editProfileValidator = new FormValidator (config, formEditElement)
-const addCardValidator = new FormValidator (config, formAddPlace)
+const profileValidator = new FormValidator (config, formEditElement)
+const CardValidator = new FormValidator (config, formAddPlace)
 
-editProfileValidator.enableValidation()
-addCardValidator.enableValidation()
+profileValidator.enableValidation()
+CardValidator.enableValidation()
 //
 // добавляет в попап существующий профиль
 function changeInputProfile () {
@@ -39,7 +39,7 @@ const handleFormEditProfileSubmit = (data) => {
 
 // работа с карточками
 function addInitialCard (data) { 
-  elementsSection.prepend(createCardForAdd(data))
+  section.addItem(createCardForAdd(data))
 }
 
 const handleFormAddPlaceSubmit = (data) => {
@@ -54,7 +54,7 @@ const handleFormAddPlaceSubmit = (data) => {
 function createCardForAdd (data) {
   const elementforAdd = new Card (data, '#oneElement', () => {
   popupWithImage.open(data.link, data.name)})
-  return elementforAdd.createCard(data)
+  return elementforAdd.createCard()
 }
 
 //Section / Popups / UserInfo
@@ -69,7 +69,7 @@ const userInfo = new UserInfo ({userProfileSelector: '.profile__name', careerPro
 // FUNCTIONS CALLS
 popupEditOpenButton.addEventListener('click', () => {
   changeInputProfile ()
-  editProfileValidator.revalidateForm()
+  profileValidator.revalidateForm()
   popupEditProfile.open()
 });
 popupAddPlaceOpenButton.addEventListener('click', () => {
