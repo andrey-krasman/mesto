@@ -17,11 +17,12 @@ api.getProfileInfo()
 
 api.getInitialCards()
 .then (cardList => {
-  // console.log(cardList)
+  console.log(cardList)
   cardList.forEach(data => {
     const card = createCardForAdd({
       name: data.name,
       link: data.link,
+      likes: data.likes
     })
     section.addItem(card)
   })
@@ -68,6 +69,7 @@ const handleFormAddPlaceSubmit = (data) => {
       const card = createCardForAdd({
         name: res.name,
         link: res.link,
+        likes: res.likes
       })
       section.addItem(card)
       popupAddPlace.close()

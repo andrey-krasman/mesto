@@ -2,7 +2,8 @@ export class Card {
     constructor (data, cardTempateSelector, handleImageClick) {
         this._cardTemplate = document.querySelector(cardTempateSelector).content
         this._name = data.name
-        this.link = data.link
+        this._link = data.link
+        this._likes = data.likes
         this._handleImageClick = handleImageClick
     }
     
@@ -20,6 +21,10 @@ export class Card {
         this._deleteButton.addEventListener('click', this._deleteCard)
         this._cardImage.addEventListener('click', this._handleImageClick)
     }
+    _getLikesNumber () {
+        const likeNumber = this._cardForAdd.querySelector('.elements__like-number')
+        likeNumber.textContent = this._likes.length
+    }
 
     createCard () {
         this._cardForAdd = this._cardTemplate.cloneNode(true);
@@ -28,10 +33,11 @@ export class Card {
         this._likeButton = this._cardForAdd.querySelector('.elements__like')
         this._deleteButton = this._cardForAdd.querySelector('.elements__delete')
 
-        this._cardImage.src = this.link;
+        this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
         this._cardName.textContent = this._name;
 
+        this._getLikesNumber ()
         this._setEventListeners()
 
         return this._cardForAdd

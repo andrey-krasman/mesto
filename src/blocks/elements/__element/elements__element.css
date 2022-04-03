@@ -5,5 +5,5 @@
     background-color: white;
     border-radius: 10px;
     display: grid;
-    grid-template-areas: "elements__image ..." "elements__name elements__like";
+    grid-template-areas: "elements__image ..." "elements__name elements__like" "... elements__like-number";
 }
