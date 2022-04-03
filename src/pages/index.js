@@ -7,7 +7,25 @@ import {Section} from '../components/Section.js'
 import {PopupWithImage} from '../components/PopupWithImage.js'
 import {PopupWithForm} from '../components/PopupWithForm.js'
 import {UserInfo} from '../components/UserInfo.js'
+import {api} from '../components/Api.js'
 
+api.getProfileInfo() 
+  .then (res => {
+    console.log(res)
+    userInfo.setUserInfo(res.name, res.about)
+  })
+
+api.getInitialCards()
+.then (cardList => {
+  // console.log(cardList)
+  cardList.forEach(data => {
+    const card = createCardForAdd({
+      name: data.name,
+      link: data.link,
+    })
+    section.addItem(card)
+  })
+})
 
 // validation
 const config = {
@@ -33,7 +51,9 @@ function changeInputProfile () {
 
 //меняет имя профиля
 const handleFormEditProfileSubmit = (data) => {
-  userInfo.setUserInfo(data['name'],data['career'])
+  const {name, career} = data
+  api.patchProfileInfo(name, career)
+  userInfo.setUserInfo(name, career)
   popupEditProfile.close()
   }
 
@@ -43,12 +63,15 @@ function addInitialCard (data) {
 }
 
 const handleFormAddPlaceSubmit = (data) => {
-  const card = createCardForAdd({
-    name: data['addPlaceName'],
-    link: data['addPlaceLink'],
-  })
-  section.addItem(card)
-  popupAddPlace.close()
+  api.addNewCard(data['addPlaceName'], data['addPlaceLink'])
+    .then(res=> {
+      const card = createCardForAdd({
+        name: res.name,
+        link: res.link,
+      })
+      section.addItem(card)
+      popupAddPlace.close()
+    })
 }
 
 function createCardForAdd (data) {
@@ -80,4 +103,4 @@ popupWithImage.setEventListeners()
 popupEditProfile.setEventListeners()
 popupAddPlace.setEventListeners()
 
-section.renderItems()
+// section.renderItems()
