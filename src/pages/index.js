@@ -11,18 +11,19 @@ import {api} from '../components/Api.js'
 
 api.getProfileInfo() 
   .then (res => {
-    console.log(res)
+    // console.log(res)
     userInfo.setUserInfo(res.name, res.about)
   })
 
 api.getInitialCards()
 .then (cardList => {
-  console.log(cardList)
+  // console.log(cardList)
   cardList.forEach(data => {
     const card = createCardForAdd({
       name: data.name,
       link: data.link,
-      likes: data.likes
+      likes: data.likes,
+      id: data._id
     })
     section.addItem(card)
   })
@@ -69,7 +70,8 @@ const handleFormAddPlaceSubmit = (data) => {
       const card = createCardForAdd({
         name: res.name,
         link: res.link,
-        likes: res.likes
+        likes: res.likes,
+        id: res._id
       })
       section.addItem(card)
       popupAddPlace.close()
@@ -77,8 +79,20 @@ const handleFormAddPlaceSubmit = (data) => {
 }
 
 function createCardForAdd (data) {
-  const elementforAdd = new Card (data, '#oneElement', () => {
-  popupWithImage.open(data.link, data.name)})
+  const elementforAdd = new Card (data,
+  '#oneElement',
+  () => {popupWithImage.open(data.link, data.name)},
+  (id) => {
+    popupConfirmDelete.open()
+    popupConfirmDelete.rewriteSubmitHandle( () => {
+    api.deleteCard(id)
+      .then (() => {
+        popupConfirmDelete.close()
+        elementforAdd._deleteCard()
+      })
+    })
+    }
+  )
   return elementforAdd.createCard()
 }
 
@@ -88,6 +102,7 @@ const section = new Section ({items: initialCards, renderer: addInitialCard}, '.
 const popupWithImage = new PopupWithImage ('#popupImagePlace')
 const popupEditProfile = new PopupWithForm ('#popupEditProfile', handleFormEditProfileSubmit)
 const popupAddPlace = new PopupWithForm ('#popupAddPlace', handleFormAddPlaceSubmit)
+const popupConfirmDelete = new PopupWithForm ('#popupCardConfirmDelete', ()=> console.log('1'))
 
 const userInfo = new UserInfo ({userProfileSelector: '.profile__name', careerProfileSelector: '.profile__career'})
 
@@ -104,5 +119,6 @@ popupAddPlaceOpenButton.addEventListener('click', () => {
 popupWithImage.setEventListeners()
 popupEditProfile.setEventListeners()
 popupAddPlace.setEventListeners()
+popupConfirmDelete.setEventListeners()
 
 // section.renderItems()

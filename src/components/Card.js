@@ -1,10 +1,12 @@
 export class Card {
-    constructor (data, cardTempateSelector, handleImageClick) {
+    constructor (data, cardTempateSelector, handleImageClick, handleDeleteClick) {
         this._cardTemplate = document.querySelector(cardTempateSelector).content
         this._name = data.name
         this._link = data.link
         this._likes = data.likes
+        this._id = data.id
         this._handleImageClick = handleImageClick
+        this._handleDeleteClick = handleDeleteClick
     }
     
     _likeCard = () => {
@@ -17,9 +19,9 @@ export class Card {
       }
     
     _setEventListeners = () => {
-        this._likeButton.addEventListener('click', this._likeCard)
-        this._deleteButton.addEventListener('click', this._deleteCard)
-        this._cardImage.addEventListener('click', this._handleImageClick)
+        this._likeButton.addEventListener('click', () => this._likeCard())
+        this._deleteButton.addEventListener('click', () => this._handleDeleteClick(this._id))
+        this._cardImage.addEventListener('click', () => this._handleImageClick())
     }
     _getLikesNumber () {
         const likeNumber = this._cardForAdd.querySelector('.elements__like-number')
