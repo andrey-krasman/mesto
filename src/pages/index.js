@@ -1,6 +1,6 @@
 import './index.css'
 import {initialCards} from '../utils/data.js'
-import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput} from '../utils/constans.js'
+import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, popupChangeAvatarButton} from '../utils/constans.js'
 import {FormValidator} from '../components/FormValidator.js'
 import {Card} from '../components/Card.js'
 import {Section} from '../components/Section.js'
@@ -9,11 +9,20 @@ import {PopupWithForm} from '../components/PopupWithForm.js'
 import {UserInfo} from '../components/UserInfo.js'
 import {api} from '../components/Api.js'
 
+let userID
+
 api.getProfileInfo() 
   .then (res => {
     // console.log(res)
+    userID = res._id
     userInfo.setUserInfo(res.name, res.about)
   })
+
+api.getProfileInfo()
+.then (res => {
+  // console.log(res)
+  userInfo.setUserAvatar(res.avatar)
+})
 
 api.getInitialCards()
 .then (cardList => {
@@ -23,7 +32,9 @@ api.getInitialCards()
       name: data.name,
       link: data.link,
       likes: data.likes,
-      id: data._id
+      id: data._id,
+      userID: userID,
+      ownerID: data.owner._id,
     })
     section.addItem(card)
   })
@@ -54,10 +65,22 @@ function changeInputProfile () {
 //меняет имя профиля
 const handleFormEditProfileSubmit = (data) => {
   const {name, career} = data
+  const popupProfile = document.querySelector('#popupEditProfile')
+  popupProfile.querySelector('.popup__save-button').textContent = 'Сохранение...'
   api.patchProfileInfo(name, career)
   userInfo.setUserInfo(name, career)
   popupEditProfile.close()
   }
+
+const handleFormChangeAvatarSubmit = (data) => {
+  const popupAvatar = document.querySelector('#popupChangeAvatar')
+  popupAvatar.querySelector('.popup__save-button').textContent = 'Сохранение...'
+  api.changeAvatar(data.addAvatarLink)
+   .then (res => {
+    document.querySelector('.profile__avatar').src = res.avatar
+   })
+  popupChangeAvatar.close()
+}
 
 // работа с карточками
 function addInitialCard (data) { 
@@ -65,13 +88,17 @@ function addInitialCard (data) {
 }
 
 const handleFormAddPlaceSubmit = (data) => {
+  const addCard = document.querySelector('#popupAddPlace')
+  addCard.querySelector('.popup__save-button').textContent = 'Сохранение...'
   api.addNewCard(data['addPlaceName'], data['addPlaceLink'])
     .then(res=> {
       const card = createCardForAdd({
         name: res.name,
         link: res.link,
         likes: res.likes,
-        id: res._id
+        id: res._id,
+        userID: userID,
+        ownerID: res.owner._id,
       })
       section.addItem(card)
       popupAddPlace.close()
@@ -79,7 +106,8 @@ const handleFormAddPlaceSubmit = (data) => {
 }
 
 function createCardForAdd (data) {
-  const elementforAdd = new Card (data,
+  const elementforAdd = new Card (
+  data,
   '#oneElement',
   () => {popupWithImage.open(data.link, data.name)},
   (id) => {
@@ -91,8 +119,20 @@ function createCardForAdd (data) {
         elementforAdd._deleteCard()
       })
     })
-    }
+    },
+  (id) => {
+    elementforAdd.isLiked() ?
+    api.deleteLike(id)
+    .then (res => {
+      elementforAdd._getLikesNumber(res.likes)
+    })  :
+    api.setLike(id)
+    .then (res => {
+      elementforAdd._getLikesNumber(res.likes)
+    })
+  }
   )
+  
   return elementforAdd.createCard()
 }
 
@@ -102,9 +142,10 @@ const section = new Section ({items: initialCards, renderer: addInitialCard}, '.
 const popupWithImage = new PopupWithImage ('#popupImagePlace')
 const popupEditProfile = new PopupWithForm ('#popupEditProfile', handleFormEditProfileSubmit)
 const popupAddPlace = new PopupWithForm ('#popupAddPlace', handleFormAddPlaceSubmit)
-const popupConfirmDelete = new PopupWithForm ('#popupCardConfirmDelete', ()=> console.log('1'))
+const popupConfirmDelete = new PopupWithForm ('#popupCardConfirmDelete')
+const popupChangeAvatar = new PopupWithForm ('#popupChangeAvatar', handleFormChangeAvatarSubmit)
 
-const userInfo = new UserInfo ({userProfileSelector: '.profile__name', careerProfileSelector: '.profile__career'})
+const userInfo = new UserInfo ({userProfileSelector: '.profile__name', careerProfileSelector: '.profile__career', profileAvatar: '.profile__avatar'})
 
 // FUNCTIONS CALLS
 popupEditOpenButton.addEventListener('click', () => {
@@ -116,9 +157,12 @@ popupAddPlaceOpenButton.addEventListener('click', () => {
   popupAddPlace.open()
 });
 
+popupChangeAvatarButton.addEventListener('click', ()=> {
+  popupChangeAvatar.open()
+})
+
 popupWithImage.setEventListeners()
 popupEditProfile.setEventListeners()
 popupAddPlace.setEventListeners()
 popupConfirmDelete.setEventListeners()
-
-// section.renderItems()
+popupChangeAvatar.setEventListeners()
