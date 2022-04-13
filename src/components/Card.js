@@ -35,17 +35,13 @@ export class Card {
     }
 
     _getLikesNumber (likes) {
-        console.log(likes)
-        // console.log(likes)
         this._likes = likes
-        // console.log(likes)
-        const likeNumber = this._cardForAdd.querySelector('.elements__like-number')
-        likeNumber.textContent = this._likes.length
+        this._likeCount.textContent = this._likes.length
 
         if (this.isLiked()) {
             this._likeCard()
         } 
-    }
+    }    
 
     createCard () {
         this._cardForAdd = this._cardTemplate.cloneNode(true);
@@ -53,6 +49,8 @@ export class Card {
         this._cardName = this._cardForAdd.querySelector('.elements__name')
         this._likeButton = this._cardForAdd.querySelector('.elements__like')
         this._deleteButton = this._cardForAdd.querySelector('.elements__delete')
+
+        this._likeCount = this._cardForAdd.querySelector('.elements__like-number')
 
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
@@ -65,8 +63,8 @@ export class Card {
             this._deleteButton.remove()
         }
 
-        
-
         return this._cardForAdd
     }   
+
 }
+
