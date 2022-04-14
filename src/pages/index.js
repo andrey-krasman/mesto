@@ -1,6 +1,6 @@
 import './index.css'
 import {initialCards} from '../utils/data.js'
-import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, popupChangeAvatarButton} from '../utils/constans.js'
+import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, popupChangeAvatarButton, formChangeAvatar, config} from '../utils/constans.js'
 import {FormValidator} from '../components/FormValidator.js'
 import {Card} from '../components/Card.js'
 import {Section} from '../components/Section.js'
@@ -41,19 +41,13 @@ api.getInitialCards()
 })
 
 // validation
-const config = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  buttonSelector: '.popup__save-button',
-  disabledButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__input_error',
-}
-
 const profileValidator = new FormValidator (config, formEditElement)
-const CardValidator = new FormValidator (config, formAddPlace)
+const cardValidator = new FormValidator (config, formAddPlace)
+const avatarValidator = new FormValidator (config, formChangeAvatar)
 
 profileValidator.enableValidation()
-CardValidator.enableValidation()
+cardValidator.enableValidation()
+avatarValidator.enableValidation()
 //
 // добавляет в попап существующий профиль
 function changeInputProfile () {
@@ -116,7 +110,7 @@ function createCardForAdd (data) {
     api.deleteCard(id)
       .then (() => {
         popupConfirmDelete.close()
-        elementforAdd._deleteCard()
+        elementforAdd.deleteCard()
       })
     })
     },
@@ -124,11 +118,11 @@ function createCardForAdd (data) {
     elementforAdd.isLiked() ?
     api.deleteLike(id)
     .then (res => {
-      elementforAdd._getLikesNumber(res.likes)
+      elementforAdd.getLikesNumber(res.likes)
     })  :
     api.setLike(id)
     .then (res => {
-      elementforAdd._getLikesNumber(res.likes)
+      elementforAdd.getLikesNumber(res.likes)
     })
   }
   )

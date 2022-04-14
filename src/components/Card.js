@@ -22,7 +22,7 @@ export class Card {
         this._likeButton.classList.toggle('elements__like_active')
       }
       
-    _deleteCard = () => {
+    deleteCard = () => {
         this._deleteButton.closest('.elements__element').remove()
         this._cardForAdd = null
       }
@@ -34,7 +34,7 @@ export class Card {
         this._cardImage.addEventListener('click', () => this._handleImageClick())
     }
 
-    _getLikesNumber (likes) {
+    getLikesNumber (likes) {
         this._likes = likes
         this._likeCount.textContent = this._likes.length
 
@@ -56,7 +56,7 @@ export class Card {
         this._cardImage.alt = this._name;
         this._cardName.textContent = this._name;
 
-        this._getLikesNumber (this._likes)
+        this.getLikesNumber (this._likes)
         this._setEventListeners()
 
         if (this._userID !== this._ownerID) {
