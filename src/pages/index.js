@@ -13,20 +13,20 @@ let userID
 
 api.getProfileInfo() 
   .then (res => {
-    // console.log(res)
     userID = res._id
     userInfo.setUserInfo(res.name, res.about)
   })
+  .catch (console.log)
 
 api.getProfileInfo()
 .then (res => {
-  // console.log(res)
   userInfo.setUserAvatar(res.avatar)
 })
+.catch (console.log)
+
 
 api.getInitialCards()
 .then (cardList => {
-  // console.log(cardList)
   cardList.forEach(data => {
     const card = createCardForAdd({
       name: data.name,
@@ -39,6 +39,7 @@ api.getInitialCards()
     section.addItem(card)
   })
 })
+.catch (console.log)
 
 // validation
 const profileValidator = new FormValidator (config, formEditElement)
@@ -62,6 +63,8 @@ const handleFormEditProfileSubmit = (data) => {
   const popupProfile = document.querySelector('#popupEditProfile')
   popupProfile.querySelector('.popup__save-button').textContent = 'Сохранение...'
   api.patchProfileInfo(name, career)
+  .catch (console.log)
+  .finally (() => document.querySelector('#popupEditProfile').querySelector('.popup__save-button').textContent = 'Сохранить')
   userInfo.setUserInfo(name, career)
   popupEditProfile.close()
   }
@@ -73,6 +76,8 @@ const handleFormChangeAvatarSubmit = (data) => {
    .then (res => {
     document.querySelector('.profile__avatar').src = res.avatar
    })
+   .catch (console.log)
+   .finally (() => document.querySelector('#popupChangeAvatar').querySelector('.popup__save-button').textContent = 'Сохранить')
   popupChangeAvatar.close()
 }
 
@@ -94,6 +99,8 @@ const handleFormAddPlaceSubmit = (data) => {
         userID: userID,
         ownerID: res.owner._id,
       })
+      .catch (console.log)
+      .finally (() => document.querySelector('#popupAddPlace').querySelector('.popup__save-button').textContent = 'Сохранить')
       section.addItem(card)
       popupAddPlace.close()
     })
@@ -112,18 +119,27 @@ function createCardForAdd (data) {
         popupConfirmDelete.close()
         elementforAdd.deleteCard()
       })
+      .catch (console.log)
     })
     },
   (id) => {
-    elementforAdd.isLiked() ?
+    elementforAdd.isLiked()     ?
     api.deleteLike(id)
     .then (res => {
       elementforAdd.getLikesNumber(res.likes)
-    })  :
+    })  
+    .then (() => {
+      elementforAdd.likeCard()
+    })
+    .catch (console.log)        :
     api.setLike(id)
     .then (res => {
       elementforAdd.getLikesNumber(res.likes)
     })
+    .then (() => {
+      elementforAdd.likeCard()
+    })
+    .catch (console.log)
   }
   )
   

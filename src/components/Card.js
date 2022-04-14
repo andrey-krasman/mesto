@@ -18,7 +18,7 @@ export class Card {
         return userLikeCard
     }
 
-    _likeCard = () => {
+    likeCard = () => {
         this._likeButton.classList.toggle('elements__like_active')
       }
       
@@ -28,7 +28,6 @@ export class Card {
       }
     
     _setEventListeners = () => {
-        this._likeButton.addEventListener('click', () => this._likeCard())
         this._likeButton.addEventListener('click', () => this._handleLikeClick(this._id))
         this._deleteButton.addEventListener('click', () => this._handleDeleteClick(this._id))
         this._cardImage.addEventListener('click', () => this._handleImageClick())
@@ -37,10 +36,6 @@ export class Card {
     getLikesNumber (likes) {
         this._likes = likes
         this._likeCount.textContent = this._likes.length
-
-        if (this.isLiked()) {
-            this._likeCard()
-        } 
     }    
 
     createCard () {
@@ -63,6 +58,9 @@ export class Card {
             this._deleteButton.remove()
         }
 
+        if (this.isLiked()) {
+            this.likeCard()
+        } 
         return this._cardForAdd
     }   
 

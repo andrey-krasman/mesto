@@ -8,16 +8,14 @@ class Api {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log)
+        .then(this._checkResponse)
     }
 
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log)
+        .then(this._checkResponse)
     }
   
     patchProfileInfo (name, career) {
@@ -29,9 +27,7 @@ class Api {
                 about: career,
             })
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log)
-        .finally (() => document.querySelector('#popupEditProfile').querySelector('.popup__save-button').textContent = 'Сохранить')
+        .then(this._checkResponse)
     }
 
     addNewCard (name, link) {
@@ -43,9 +39,7 @@ class Api {
                 link: link,
             })
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log)
-        .finally (() => document.querySelector('#popupAddPlace').querySelector('.popup__save-button').textContent = 'Сохранить')
+        .then(this._checkResponse)
     }
 
     deleteCard (id) {
@@ -53,8 +47,7 @@ class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log)
+        .then(this._checkResponse)
     }
 
     deleteLike (id) {
@@ -62,8 +55,7 @@ class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log)
+        .then(this._checkResponse)
     }
 
     setLike (id) {
@@ -71,8 +63,7 @@ class Api {
             method: 'PUT',
             headers: this._headers,
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log)
+        .then(this._checkResponse)
     }
 
     changeAvatar (link) {
@@ -83,14 +74,17 @@ class Api {
                 avatar: link
             })
         })
-        .then (res =>  res.ok ? res.json() : Promise.reject(res.status))
-        .catch (console.log('xbhbhxb'))
-        .finally (() => document.querySelector('#popupChangeAvatar').querySelector('.popup__save-button').textContent = 'Сохранить')
+        .then(this._checkResponse)
+    }
+
+    _checkResponse(res) {
+        if (res.ok) {
+        return res.json()
+    }
+        return Promise.reject(`Ошибка ${res.status}`)
     }
   }
 
-  
-  
   export const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39',
     headers: {
