@@ -17,13 +17,9 @@ export class FormValidator {
 
         this._toggleButtonState()
         this._form.addEventListener('reset', () => {
-            this._buttonElement.classList.add('popup__save-button_disabled');
-            this._buttonElement.setAttribute('disabled', '')
-        })
-      
-        this._form.addEventListener('click', (event) => {
-          if(event.target.classList.contains('.close-button')){
-          }
+            setTimeout(() => {
+                this._toggleButtonState()
+            })
         })
       
         this._inputs.forEach(input => {

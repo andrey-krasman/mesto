@@ -12,12 +12,9 @@ export class UserInfo {
         }
     }
 
-    setUserAvatar (avatar) {
-        this._profileAvatar.src = avatar
-    }
-
-    setUserInfo (name, career) {
+    setUserInfo (name, career, avatar) {
         this._profileName.textContent = name
         this._profileCareer.textContent = career
+        this._profileAvatar.src = avatar
     }
 }

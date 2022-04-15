@@ -11,35 +11,55 @@ import {api} from '../components/Api.js'
 
 let userID
 
-api.getProfileInfo() 
-  .then (res => {
-    userID = res._id
-    userInfo.setUserInfo(res.name, res.about)
+// api.getProfileInfo() 
+//   .then (res => {
+//     userID = res._id
+//     userInfo.setUserInfo(res.name, res.about)
+//   })
+//   .catch (console.log)
+
+// api.getProfileInfo()
+// .then (res => {
+//   userInfo.setUserAvatar(res.avatar)
+// })
+// .catch (console.log)
+
+
+// api.getInitialCards()
+// .then (cardList => {
+//   cardList.forEach(data => {
+//     const card = createCardForAdd({
+//       name: data.name,
+//       link: data.link,
+//       likes: data.likes,
+//       id: data._id,
+//       userID: userID,
+//       ownerID: data.owner._id,
+//     })
+//     section.addItem(card)
+//   })
+// })
+// .catch (console.log)
+
+// api.getProfileInfo() 
+// api.getInitialCards()
+Promise.all([api.getProfileInfo(), api.getInitialCards()])
+  .then (([userData, cardList]) => {
+    userID = userData._id
+    userInfo.setUserInfo(userData.name, userData.about, userData.avatar)
+    cardList.forEach(data => {
+      const card = createCardForAdd({
+        name: data.name,
+        link: data.link,
+        likes: data.likes,
+        id: data._id,
+        userID: userID,
+        ownerID: data.owner._id,
+      })
+      section.addItem(card)
+    })
   })
   .catch (console.log)
-
-api.getProfileInfo()
-.then (res => {
-  userInfo.setUserAvatar(res.avatar)
-})
-.catch (console.log)
-
-
-api.getInitialCards()
-.then (cardList => {
-  cardList.forEach(data => {
-    const card = createCardForAdd({
-      name: data.name,
-      link: data.link,
-      likes: data.likes,
-      id: data._id,
-      userID: userID,
-      ownerID: data.owner._id,
-    })
-    section.addItem(card)
-  })
-})
-.catch (console.log)
 
 // validation
 const profileValidator = new FormValidator (config, formEditElement)
@@ -63,10 +83,12 @@ const handleFormEditProfileSubmit = (data) => {
   const popupProfile = document.querySelector('#popupEditProfile')
   popupProfile.querySelector('.popup__save-button').textContent = 'Сохранение...'
   api.patchProfileInfo(name, career)
+  .then (()=> {
+    userInfo.setUserInfo(name, career)
+    popupEditProfile.close()
+  })
   .catch (console.log)
   .finally (() => document.querySelector('#popupEditProfile').querySelector('.popup__save-button').textContent = 'Сохранить')
-  userInfo.setUserInfo(name, career)
-  popupEditProfile.close()
   }
 
 const handleFormChangeAvatarSubmit = (data) => {
@@ -75,10 +97,10 @@ const handleFormChangeAvatarSubmit = (data) => {
   api.changeAvatar(data.addAvatarLink)
    .then (res => {
     document.querySelector('.profile__avatar').src = res.avatar
+    popupChangeAvatar.close()
    })
    .catch (console.log)
    .finally (() => document.querySelector('#popupChangeAvatar').querySelector('.popup__save-button').textContent = 'Сохранить')
-  popupChangeAvatar.close()
 }
 
 // работа с карточками
@@ -99,11 +121,11 @@ const handleFormAddPlaceSubmit = (data) => {
         userID: userID,
         ownerID: res.owner._id,
       })
-      .catch (console.log)
-      .finally (() => document.querySelector('#popupAddPlace').querySelector('.popup__save-button').textContent = 'Сохранить')
       section.addItem(card)
       popupAddPlace.close()
     })
+    .catch (console.log)
+    .finally (() => document.querySelector('#popupAddPlace').querySelector('.popup__save-button').textContent = 'Сохранить')
 }
 
 function createCardForAdd (data) {
