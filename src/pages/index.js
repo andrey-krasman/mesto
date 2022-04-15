@@ -11,38 +11,6 @@ import {api} from '../components/Api.js'
 
 let userID
 
-// api.getProfileInfo() 
-//   .then (res => {
-//     userID = res._id
-//     userInfo.setUserInfo(res.name, res.about)
-//   })
-//   .catch (console.log)
-
-// api.getProfileInfo()
-// .then (res => {
-//   userInfo.setUserAvatar(res.avatar)
-// })
-// .catch (console.log)
-
-
-// api.getInitialCards()
-// .then (cardList => {
-//   cardList.forEach(data => {
-//     const card = createCardForAdd({
-//       name: data.name,
-//       link: data.link,
-//       likes: data.likes,
-//       id: data._id,
-//       userID: userID,
-//       ownerID: data.owner._id,
-//     })
-//     section.addItem(card)
-//   })
-// })
-// .catch (console.log)
-
-// api.getProfileInfo() 
-// api.getInitialCards()
 Promise.all([api.getProfileInfo(), api.getInitialCards()])
   .then (([userData, cardList]) => {
     userID = userData._id
@@ -51,7 +19,6 @@ Promise.all([api.getProfileInfo(), api.getInitialCards()])
     renderItems (cardList) 
   })
   .catch (console.log)
-
 
 function renderItems (items) {
   items.forEach (data => {
