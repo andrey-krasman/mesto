@@ -18,3 +18,7 @@ export const config = {
     disabledButtonClass: 'popup__save-button_disabled',
     inputErrorClass: 'popup__input_error',
   }
+
+export const popupProfile = document.querySelector('#popupEditProfile')
+export const popupAvatar = document.querySelector('#popupChangeAvatar')
+export const addCard = document.querySelector('#popupAddPlace')

@@ -1,6 +1,6 @@
 import './index.css'
 import {initialCards} from '../utils/data.js'
-import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, popupChangeAvatarButton, formChangeAvatar, config} from '../utils/constans.js'
+import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, popupChangeAvatarButton, formChangeAvatar, config, popupProfile, popupAvatar, addCard} from '../utils/constans.js'
 import {FormValidator} from '../components/FormValidator.js'
 import {Card} from '../components/Card.js'
 import {Section} from '../components/Section.js'
@@ -46,21 +46,26 @@ let userID
 Promise.all([api.getProfileInfo(), api.getInitialCards()])
   .then (([userData, cardList]) => {
     userID = userData._id
-    userInfo.setUserInfo(userData.name, userData.about, userData.avatar)
-    cardList.forEach(data => {
-      const card = createCardForAdd({
-        name: data.name,
-        link: data.link,
-        likes: data.likes,
-        id: data._id,
-        userID: userID,
-        ownerID: data.owner._id,
-      })
-      section.addItem(card)
-    })
+    userInfo.setUserInfo(userData.name, userData.about)
+    userInfo.setUserAvatar(userData.avatar)
+    renderItems (cardList) 
   })
   .catch (console.log)
 
+
+function renderItems (items) {
+  items.forEach (data => {
+    const card = createCardForAdd({
+      name: data.name,
+      link: data.link,
+      likes: data.likes,
+      id: data._id,
+      userID: userID,
+      ownerID: data.owner._id,
+    })
+  section.addItem(card)
+  })
+}
 // validation
 const profileValidator = new FormValidator (config, formEditElement)
 const cardValidator = new FormValidator (config, formAddPlace)
@@ -80,7 +85,6 @@ function changeInputProfile () {
 //меняет имя профиля
 const handleFormEditProfileSubmit = (data) => {
   const {name, career} = data
-  const popupProfile = document.querySelector('#popupEditProfile')
   popupProfile.querySelector('.popup__save-button').textContent = 'Сохранение...'
   api.patchProfileInfo(name, career)
   .then (()=> {
@@ -92,11 +96,10 @@ const handleFormEditProfileSubmit = (data) => {
   }
 
 const handleFormChangeAvatarSubmit = (data) => {
-  const popupAvatar = document.querySelector('#popupChangeAvatar')
   popupAvatar.querySelector('.popup__save-button').textContent = 'Сохранение...'
   api.changeAvatar(data.addAvatarLink)
    .then (res => {
-    document.querySelector('.profile__avatar').src = res.avatar
+    userInfo.setUserAvatar(res.avatar)
     popupChangeAvatar.close()
    })
    .catch (console.log)
@@ -109,7 +112,6 @@ function addInitialCard (data) {
 }
 
 const handleFormAddPlaceSubmit = (data) => {
-  const addCard = document.querySelector('#popupAddPlace')
   addCard.querySelector('.popup__save-button').textContent = 'Сохранение...'
   api.addNewCard(data['addPlaceName'], data['addPlaceLink'])
     .then(res=> {
