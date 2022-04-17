@@ -19,6 +19,6 @@ export const config = {
     inputErrorClass: 'popup__input_error',
   }
 
-export const popupProfile = document.querySelector('#popupEditProfile')
-export const popupAvatar = document.querySelector('#popupChangeAvatar')
-export const addCard = document.querySelector('#popupAddPlace')
+export const popupProfileSubmitButton = document.querySelector('#popupEditProfile').querySelector('.popup__save-button')
+export const popupAvatarSubmitButton = document.querySelector('#popupChangeAvatar').querySelector('.popup__save-button')
+export const addCardSubmitButton = document.querySelector('#popupAddPlace').querySelector('.popup__save-button')

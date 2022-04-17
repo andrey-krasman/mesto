@@ -1,6 +1,6 @@
 import './index.css'
 import {initialCards} from '../utils/data.js'
-import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, popupChangeAvatarButton, formChangeAvatar, config, popupProfile, popupAvatar, addCard} from '../utils/constans.js'
+import {popupEditOpenButton, popupAddPlaceOpenButton, formEditElement, formAddPlace, popupNameInput, popupCareerInput, popupChangeAvatarButton, formChangeAvatar, config, popupProfileSubmitButton, popupAvatarSubmitButton, addCardSubmitButton} from '../utils/constans.js'
 import {FormValidator} from '../components/FormValidator.js'
 import {Card} from '../components/Card.js'
 import {Section} from '../components/Section.js'
@@ -16,23 +16,10 @@ Promise.all([api.getProfileInfo(), api.getInitialCards()])
     userID = userData._id
     userInfo.setUserInfo(userData.name, userData.about)
     userInfo.setUserAvatar(userData.avatar)
-    renderItems (cardList) 
+    section.renderItems (cardList) 
   })
   .catch (console.log)
 
-function renderItems (items) {
-  items.forEach (data => {
-    const card = createCardForAdd({
-      name: data.name,
-      link: data.link,
-      likes: data.likes,
-      id: data._id,
-      userID: userID,
-      ownerID: data.owner._id,
-    })
-  section.addItem(card)
-  })
-}
 // validation
 const profileValidator = new FormValidator (config, formEditElement)
 const cardValidator = new FormValidator (config, formAddPlace)
@@ -52,25 +39,25 @@ function changeInputProfile () {
 //меняет имя профиля
 const handleFormEditProfileSubmit = (data) => {
   const {name, career} = data
-  popupProfile.querySelector('.popup__save-button').textContent = 'Сохранение...'
+  popupProfileSubmitButton.textContent = 'Сохранение...'
   api.patchProfileInfo(name, career)
   .then (()=> {
     userInfo.setUserInfo(name, career)
     popupEditProfile.close()
   })
   .catch (console.log)
-  .finally (() => document.querySelector('#popupEditProfile').querySelector('.popup__save-button').textContent = 'Сохранить')
+  .finally (() => popupProfileSubmitButton.textContent = 'Сохранить')
   }
 
 const handleFormChangeAvatarSubmit = (data) => {
-  popupAvatar.querySelector('.popup__save-button').textContent = 'Сохранение...'
+  popupAvatarSubmitButton.textContent = 'Сохранение...'
   api.changeAvatar(data.addAvatarLink)
    .then (res => {
     userInfo.setUserAvatar(res.avatar)
     popupChangeAvatar.close()
    })
    .catch (console.log)
-   .finally (() => document.querySelector('#popupChangeAvatar').querySelector('.popup__save-button').textContent = 'Сохранить')
+   .finally (() => popupAvatarSubmitButton.textContent = 'Сохранить')
 }
 
 // работа с карточками
@@ -79,10 +66,10 @@ function addInitialCard (data) {
 }
 
 const handleFormAddPlaceSubmit = (data) => {
-  addCard.querySelector('.popup__save-button').textContent = 'Сохранение...'
+  addCardSubmitButton.textContent = 'Сохранение...'
   api.addNewCard(data['addPlaceName'], data['addPlaceLink'])
     .then(res=> {
-      const card = createCardForAdd({
+      addInitialCard ({
         name: res.name,
         link: res.link,
         likes: res.likes,
@@ -90,11 +77,10 @@ const handleFormAddPlaceSubmit = (data) => {
         userID: userID,
         ownerID: res.owner._id,
       })
-      section.addItem(card)
       popupAddPlace.close()
     })
     .catch (console.log)
-    .finally (() => document.querySelector('#popupAddPlace').querySelector('.popup__save-button').textContent = 'Сохранить')
+    .finally (() => addCardSubmitButton.textContent = 'Сохранить')
 }
 
 function createCardForAdd (data) {
@@ -138,7 +124,16 @@ function createCardForAdd (data) {
 }
 
 //Section / Popups / UserInfo
-const section = new Section ({items: initialCards, renderer: addInitialCard}, '.elements')
+const section = new Section ({items: [], renderer: (item) => {
+  section.addItem(createCardForAdd ( {
+      name: item.name,
+      link: item.link,
+      likes: item.likes,
+      id: item._id,
+      userID: userID,
+      ownerID: item.owner._id,
+  }))
+}}, '.elements')
 
 const popupWithImage = new PopupWithImage ('#popupImagePlace')
 const popupEditProfile = new PopupWithForm ('#popupEditProfile', handleFormEditProfileSubmit)
